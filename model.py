@@ -13,9 +13,9 @@ class User(db.Model):
     user_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    fname = db.Colimn(db.String (25), nullable=False)
-    lname = db.Colimn(db.String (25), nullable=False)
-    user_name = db.Colimn(db.String (25), nullable=False)
+    fname = db.Column(db.String (25), nullable=False)
+    lname = db.Column(db.String (25), nullable=False)
+    user_name = db.Column(db.String (25), nullable=False)
     email = db.Column(db.String, unique=True, nullable=False )
     password = db.Column(db.String(50), nullable=False)
 
@@ -36,12 +36,13 @@ class Link(db.Model):
     name = db.Column(db.String, nullable=False)
     link_path = db.Column(db.Text, nullable=False)
     image = db.Column(db.String, nullable=True)
-    notes = db.Column(db.Text, nullable=False) 
+    notes = db.Column(db.Text, nullable=True) 
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
 
     user = db.relationship("User", backref="links")
-
-    # tagslinks = A list of TagLink objects
+    
+    
+    # tags = A list of Tags objects w/ secondary backref to TagsLinks
 
     def __repr__(self):
         return f'<Link link_id={self.link_id} name={self.name}>'
@@ -56,7 +57,9 @@ class Tag(db.Model):
                         primary_key=True)
     tag = db.Column(db.String(25))
     
-    # tagslinks = A list of TagLink objects
+    links = db.relationship("Link", secondary="tagslinks", backref="tags")
+    
+    
 
     def __repr__(self):
         return f'<Tag tag_id={self.tag_id} tag={self.tag}>'
@@ -72,11 +75,11 @@ class TagLink(db.Model):
     link_id = db.Column(db.Integer, db.ForeignKey("links.link_id")) 
     tag_id = db.Column(db.Integer, db.ForeignKey("tags.tag_id"))
 
-    link = db.relationship("Link", backref="tagslinks")
-    tag = db.relationship("Tag", backref="tagslinks")
+    
+    
 
     def __repr__(self):
-        return f'<Rating rating_id={self.rating_id} score={self.score}>'
+        return f'<TagLink link_id={self.link_id} tag_id={self.tag_id}>'
 
 
 
