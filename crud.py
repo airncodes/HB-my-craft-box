@@ -3,6 +3,7 @@
 from model import db, User, Link, Tag, TagLink, connect_to_db
 # User/Account Functions
 def create_user(fname, lname, user_name, email, password):
+    # Adds user to database
     user = User(
         fname=fname, 
         lname=lname, 
@@ -18,6 +19,7 @@ def create_user(fname, lname, user_name, email, password):
 
 # Link Functions
 def add_link(name, link_path, user_id, image=None, notes=None):
+    # Adds link to database.
     link = Link(
         name=name,
         link_path=link_path,
@@ -36,6 +38,7 @@ def add_note2link():
 
 # Tag Functions
 def add_tag(tag):
+    # Adds tag to database
     tag = Tag(
         tag=tag,
     )
@@ -53,9 +56,10 @@ def search_by_tag():
 
 # TagLink Functions
 def create_taglink(link_id, tag_id):
+    # Adds taglink to the database to connect tags with links. 
     taglink = TagLink(
-        link_id=link.link_id, 
-        tag_id=tag.tag_id
+        link_id=link_id, 
+        tag_id=tag_id
         )
     
     db.session.add(taglink)
