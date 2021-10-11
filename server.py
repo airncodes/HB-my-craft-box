@@ -32,8 +32,9 @@ def sign_up():
     password2 = request.form.get('password2')
     
     user = crud.find_user_by_email(email)
-    if email == user:
+    if user:
         flash('Cannot create an account with that email. Try again.')
+        return redirect('/signup')
         
     if password == password2:
         password_hash = generate_password_hash(password)
@@ -43,13 +44,38 @@ def sign_up():
     else:
         flash('Passwords must match')
         return redirect('/signup')
+        
     
-    
-
 @app.route('/login')
+def show_login():
+    """Shows the signup page"""
+    return render_template("login.html")    
+
+@app.route('/login', methods=['POST'])
 def login_user():
     """Login page for the user"""
-    pass
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    user = crud.find_user_by_email(email)
+    
+ 
+    if not user:
+        flash('Email not recognized. Try again.')
+        return redirect('/login')
+    
+    passwordcheck = crud.check_password(user, password)
+    if not passwordcheck:
+        flash('Invalid password. Try again.')
+        return redirect('/login')
+        
+    else:
+        flash(f'Logged in {user.fname}')
+        return render_template("craftbox.html")
+
+
+
+
 
 @app.route('/account')
 def show_account_page():
