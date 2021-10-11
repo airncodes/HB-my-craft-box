@@ -1,21 +1,36 @@
 """CRUD Operations for Model"""
 
 from model import db, User, Link, Tag, TagLink, connect_to_db
+from werkzeug.security import generate_password_hash, check_password_hash
+
+
 # User/Account Functions
-def create_user(fname, lname, user_name, email, password):
+def create_user(fname, lname, user_name, email, password_hash):
     # Adds user to database
     user = User(
         fname=fname, 
         lname=lname, 
         user_name=user_name, 
         email=email, 
-        password=password
+        password_hash=password_hash
         )
 
     db.session.add(user)
     db.session.commit()
 
     return user
+
+def find_user_by_email(email):
+    #Finds a user by their email.
+
+    return User.query.filter(User.email == email).first()
+
+def set_password(user, password):
+        user.password_hash = generate_password_hash(password)
+
+
+def check_password(user, password):
+    return check_password_hash(user.password_hash, password)
 
 # Link Functions
 def add_link(name, link_path, user_id, image=None, notes=None):

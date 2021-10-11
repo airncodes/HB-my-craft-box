@@ -1,4 +1,5 @@
-from flask import (Flask, render_template, request, flash, session, redirect)
+from flask import Flask, render_template, request, flash, session, redirect
+from werkzeug.security import generate_password_hash, check_password_hash
 from model import connect_to_db
 import crud
 from jinja2 import StrictUndefined
@@ -15,9 +16,35 @@ def show_homepage():
     return render_template("homepage.html")
 
 @app.route('/signup')
+def show_signup():
+    """Shows the signup page"""
+    return render_template("signup.html")
+
+@app.route('/signup', methods=['POST'])
 def sign_up():
     """User sign up"""
-    pass
+    
+    fname = request.form.get('fname')
+    lname = request.form.get('lname')
+    user_name = request.form.get('user_name')
+    email = request.form.get('email')
+    password = request.form.get('password')
+    password2 = request.form.get('password2')
+    
+    user = crud.find_user_by_email(email)
+    if email == user:
+        flash('Cannot create an account with that email. Try again.')
+        
+    if password == password2:
+        password_hash = generate_password_hash(password)
+        crud.create_user(fname, lname, user_name, email, password_hash)
+        flash('Account created! Please log in.')
+        return redirect('/')
+    else:
+        flash('Passwords must match')
+        return redirect('/signup')
+    
+    
 
 @app.route('/login')
 def login_user():
