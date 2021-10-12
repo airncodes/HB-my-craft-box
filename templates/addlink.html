@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Link{% endblock %}
+
+{% block body %}
+  <h1>Add Link</h1>
+
+  <form action="/addlink" method="POST">
+    
+    <label for="addlinkname">What do you want to name this?</label>
+    <p>
+      Name <input type="text" name="name">
+    </p>
+    
+    <label for="addURL">URL for the page saved</label>
+    <p>
+      URL <input type="text" name="link_path">
+    </p>
+
+    <label for="addimage">Optional—Add an image thumbnail. Copy the image address link and paste here.</label>
+    <p>
+      Image <input type="text" name="image">
+    </p>
+
+    <label for="addNotes">Option—Add a note about this link.</label>
+    <p>
+      Notes <input type="text" name="notes">
+    </p>
+
+    <p>
+      <input type="submit">
+    </p>
+  </form>
+{% endblock %}

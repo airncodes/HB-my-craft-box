@@ -25,6 +25,11 @@ def find_user_by_email(email):
 
     return User.query.filter(User.email == email).first()
 
+def get_userid_by_email(email):
+    # Gets the user id of the user by their email used to login.
+    user_info = find_user_by_email(email)
+    return user_info.user_id
+
 def set_password(user, password):
         user.password_hash = generate_password_hash(password)
 

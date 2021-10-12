@@ -97,10 +97,19 @@ def show_selected_item():
     """Shows page for the selected item"""
     pass
 
-@app.route('/add')
-def add_item():
-    """Allows a user to add a link and/or tag"""
-    pass
+@app.route('/addlink', methods=['POST'])
+def add_link():
+    """Allows a user to add a link"""
+
+    name = request.form.get('name')
+    link_path = request.form.get('link_path')
+    image = request.form.get('image')
+    notes = request.form.get('notes')
+
+    user_id = crud.get_userid_by_email(email)
+    
+    crud.add_link(name, link_path, user_id, image=None, notes=None)
+    flash('Link Added!')
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)
