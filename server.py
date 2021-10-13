@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, flash, session, redirect
-from werkzeug.security import generate_password_hash, check_password_hash
-from model import connect_to_db
+from flask_login import login_required, current_user, login_user, logout_user
+from model import connect_to_db, login_manager
 import crud
 from jinja2 import StrictUndefined
 
@@ -9,41 +9,50 @@ app = Flask(__name__)
 app.secret_key = "nopeeks"
 app.jinja_env.undefined = StrictUndefined
 
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
 
 @app.route('/')
 def show_homepage():
     """Shows the homepage"""
     return render_template("homepage.html")
 
+
 @app.route('/signup')
 def show_signup():
     """Shows the signup page"""
     return render_template("signup.html")
 
-@app.route('/signup', methods=['POST'])
+@app.route('/signup', methods=['POST', 'GET'])
 def sign_up():
     """User sign up"""
     
-    fname = request.form.get('fname')
-    lname = request.form.get('lname')
-    user_name = request.form.get('user_name')
-    email = request.form.get('email')
-    password = request.form.get('password')
-    password2 = request.form.get('password2')
+    if current_user.is_authenticated:
+        return redirect('/craftbox.html')
     
-    user = crud.find_user_by_email(email)
-    if user:
-        flash('Cannot create an account with that email. Try again.')
-        return redirect('/signup')
+    if request.method == "POST":
+        fname = request.form.get('fname')
+        lname = request.form.get('lname')
+        user_name = request.form.get('user_name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        password2 = request.form.get('password2')
+        user = crud.find_user_by_email(email)
+
+        if user:
+            flash('Cannot create an account with that email. Try again.')
+            return redirect('/signup')
         
-    if password == password2:
-        password_hash = generate_password_hash(password)
-        crud.create_user(fname, lname, user_name, email, password_hash)
-        flash('Account created! Please log in.')
-        return redirect('/')
-    else:
-        flash('Passwords must match')
-        return redirect('/signup')
+        if password == password2:
+            password_hash = user.set_password(user, password)
+            crud.create_user(fname, lname, user_name, email, password_hash)
+            flash('Account created! Please log in.')
+            return redirect('/')
+        else:
+            flash('Passwords must match')
+            return redirect('/signup')
+    return redirect('/signup')
         
     
 @app.route('/login')
@@ -51,41 +60,38 @@ def show_login():
     """Shows the signup page"""
     return render_template("login.html")    
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST', 'GET'])
 def login_user():
     """Login page for the user"""
-    email = request.form.get('email')
+    
     password = request.form.get('password')
 
-    user = crud.find_user_by_email(email)
     
+    if current_user.is_authenticated:
+        return redirect('/craftbox.html')
+    
+    if request.method == 'POST':
+        email = request.form.get('email')
+        user = crud.find_user_by_email(email)
+        if user is not None and user.check_password(request.form.get('password')):
+            login_user(user)
+            return redirect('/craftbox.html')
  
-    if not user:
-        flash('Email not recognized. Try again.')
-        return redirect('/login')
-    
-    passwordcheck = crud.check_password(user, password)
-    if not passwordcheck:
-        flash('Invalid password. Try again.')
-        return redirect('/login')
-        
-    else:
-        flash(f'Logged in {user.fname}')
-        return render_template("craftbox.html")
-
-
-
+    flash('Invalid email or password. Try again.')
+    return redirect('/login')
 
 
 @app.route('/account')
+@login_required
 def show_account_page():
     """Shows user's account page"""
     pass
 
 @app.route('/logout')
-def logout_user():
-    """Logs out for the user"""
-    pass
+def logout():
+    """Logs out for the user""" 
+    logout_user()
+    return redirect('/')
 
 @app.route('/search')
 def user_search():
@@ -98,6 +104,7 @@ def show_selected_item():
     pass
 
 @app.route('/addlink', methods=['POST'])
+@login_required
 def add_link():
     """Allows a user to add a link"""
 

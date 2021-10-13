@@ -1,12 +1,16 @@
 """Models for my craft box app."""
 
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
+from flask_login import LoginManager
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
+login_manager = LoginManager()
 db = SQLAlchemy()
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     """A user."""
 
     __tablename__ = "users"
@@ -20,14 +24,21 @@ class User(db.Model):
     email = db.Column(db.String, unique=True, nullable=False )
     password_hash = db.Column(db.String(128), nullable=False)
 
-    
-    
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
 
     # links = A list of Link objects
 
     def __repr__(self):
         return f'<User user_id={self.user_id} user_name={self.user_name}>'
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class Link(db.Model):
     """A link."""
@@ -94,6 +105,9 @@ def connect_to_db(flask_app, db_uri="postgresql:///craftbox", echo=True):
 
     db.app = flask_app
     db.init_app(flask_app)
+    # @flask_app.before_first_request
+    # def create_table():
+    #     db.create_all()
 
     print("Connected to the db!")
 
