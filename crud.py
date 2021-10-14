@@ -1,6 +1,7 @@
 """CRUD Operations for Model"""
 
 from model import db, User, Link, Tag, TagLink, connect_to_db
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 
@@ -29,6 +30,13 @@ def get_userid_by_email(email):
     # Gets the user id of the user by their email used to login.
     user_info = find_user_by_email(email)
     return user_info.user_id
+
+def set_password(user, password):
+    password_hash = generate_password_hash(password)
+    return password_hash
+
+def check_password(user, password):
+    return check_password_hash(user.password_hash, password)
 
 
 

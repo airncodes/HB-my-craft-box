@@ -10,7 +10,7 @@ app.secret_key = "nopeeks"
 app.jinja_env.undefined = StrictUndefined
 
 login_manager.init_app(app)
-login_manager.login_view = 'login'
+login_manager.login_view = 'craftbox'
 
 
 @app.route('/')
@@ -45,7 +45,7 @@ def sign_up():
             return redirect('/signup')
         
         if password == password2:
-            password_hash = user.set_password(user, password)
+            password_hash = crud.set_password(user, password)
             crud.create_user(fname, lname, user_name, email, password_hash)
             flash('Account created! Please log in.')
             return redirect('/')
@@ -53,7 +53,13 @@ def sign_up():
             flash('Passwords must match')
             return redirect('/signup')
     return redirect('/signup')
-        
+
+
+@app.route('/craftbox')
+@login_required
+def show_craftbox():
+    """Shows the signup page"""
+    return render_template("craftbox.html")        
     
 @app.route('/login')
 def show_login():
@@ -61,21 +67,20 @@ def show_login():
     return render_template("login.html")    
 
 @app.route('/login', methods=['POST', 'GET'])
-def login_user():
+def login():
     """Login page for the user"""
     
-    password = request.form.get('password')
-
-    
     if current_user.is_authenticated:
-        return redirect('/craftbox.html')
+        return redirect('/craftbox')
     
     if request.method == 'POST':
         email = request.form.get('email')
+        password = request.form.get('password')
         user = crud.find_user_by_email(email)
-        if user is not None and user.check_password(request.form.get('password')):
+        if user is not None and crud.check_password(user, password):
             login_user(user)
-            return redirect('/craftbox.html')
+            flash(f'Logged in as {user.user_name}.')
+            return redirect('/craftbox')
  
     flash('Invalid email or password. Try again.')
     return redirect('/login')
@@ -103,6 +108,12 @@ def show_selected_item():
     """Shows page for the selected item"""
     pass
 
+@app.route('/addlink')
+@login_required
+def show_addlink():
+    """Shows the addlink form"""
+    return render_template("addlink.html")
+
 @app.route('/addlink', methods=['POST'])
 @login_required
 def add_link():
@@ -110,13 +121,13 @@ def add_link():
 
     name = request.form.get('name')
     link_path = request.form.get('link_path')
+    user_id = current_user.user_id
     image = request.form.get('image')
     notes = request.form.get('notes')
 
-    user_id = crud.get_userid_by_email(email)
-    
     crud.add_link(name, link_path, user_id, image=None, notes=None)
     flash('Link Added!')
+    return redirect('/craftbox')
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)
