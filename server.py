@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request, flash, session, redirect
+"""Server routes for My Craft Box app."""
+
+from flask import Flask, render_template, request, flash, redirect
 from flask_login import login_required, current_user, login_user, logout_user
 from model import connect_to_db, login_manager
 import crud
@@ -27,10 +29,10 @@ def show_signup():
 @app.route('/signup', methods=['POST', 'GET'])
 def sign_up():
     """User sign up"""
-    
+
     if current_user.is_authenticated:
         return redirect('/craftbox.html')
-    
+
     if request.method == "POST":
         fname = request.form.get('fname')
         lname = request.form.get('lname')
@@ -43,7 +45,6 @@ def sign_up():
         if user:
             flash('Cannot create an account with that email. Try again.')
             return redirect('/signup')
-        
         if password == password2:
             password_hash = crud.set_password(user, password)
             crud.create_user(fname, lname, user_name, email, password_hash)
@@ -59,20 +60,20 @@ def sign_up():
 @login_required
 def show_craftbox():
     """Shows the signup page"""
-    return render_template("craftbox.html")        
-    
+    return render_template("craftbox.html")
+
 @app.route('/login')
 def show_login():
     """Shows the signup page"""
-    return render_template("login.html")    
+    return render_template("login.html")
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     """Login page for the user"""
-    
+
     if current_user.is_authenticated:
         return redirect('/craftbox')
-    
+
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
@@ -81,7 +82,7 @@ def login():
             login_user(user)
             flash(f'Logged in as {user.user_name}.')
             return redirect('/craftbox')
- 
+
     flash('Invalid email or password. Try again.')
     return redirect('/login')
 
@@ -94,7 +95,7 @@ def show_account_page():
 
 @app.route('/logout')
 def logout():
-    """Logs out for the user""" 
+    """Logs out for the user"""
     logout_user()
     return redirect('/')
 
@@ -125,9 +126,27 @@ def add_link():
     image = request.form.get('image')
     notes = request.form.get('notes')
 
-    crud.add_link(name, link_path, user_id, image=None, notes=None)
+    crud.add_link(name, link_path, user_id, image, notes)
     flash('Link Added!')
     return redirect('/craftbox')
+
+@app.route('/addtag')
+@login_required
+def show_addtag():
+    """Shows the addtag form"""
+    return render_template("addtag.html")
+
+@app.route('/addtag', methods=['POST'])
+@login_required
+def add_tag():
+    """Allows a user to add a link"""
+
+    tag = request.form.get('tag')
+
+    crud.add_tag(tag)
+    flash('Tag Added!')
+    return redirect('/craftbox')
+    
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)

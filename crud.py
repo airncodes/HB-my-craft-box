@@ -7,12 +7,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # User/Account Functions
 def create_user(fname, lname, user_name, email, password_hash):
-    # Adds user to database
+    """Adds user to database"""
     user = User(
-        fname=fname, 
-        lname=lname, 
-        user_name=user_name, 
-        email=email, 
+        fname=fname,
+        lname=lname,
+        user_name=user_name,
+        email=email,
         password_hash=password_hash
         )
 
@@ -22,27 +22,29 @@ def create_user(fname, lname, user_name, email, password_hash):
     return user
 
 def find_user_by_email(email):
-    #Finds a user by their email.
+    """ Finds a user by their email. """
 
     return User.query.filter(User.email == email).first()
 
 def get_userid_by_email(email):
-    # Gets the user id of the user by their email used to login.
+    """Gets the user id of the user by their email used to login."""
     user_info = find_user_by_email(email)
     return user_info.user_id
 
 def set_password(user, password):
+    """Sets the password hash"""
     password_hash = generate_password_hash(password)
     return password_hash
 
 def check_password(user, password):
+    """Checks that the input password matches the stored password"""
     return check_password_hash(user.password_hash, password)
 
 
 
 # Link Functions
 def add_link(name, link_path, user_id, image=None, notes=None):
-    # Adds link to database.
+    """Adds link to database."""
     link = Link(
         name=name,
         link_path=link_path,
@@ -57,11 +59,12 @@ def add_link(name, link_path, user_id, image=None, notes=None):
     return link
 
 def add_note2link():
+    """Function to add a note after a link has already been added"""
     pass
 
 # Tag Functions
 def add_tag(tag):
-    # Adds tag to database
+    """Adds tag to database"""
     tag = Tag(
         tag=tag,
     )
@@ -72,19 +75,21 @@ def add_tag(tag):
     return tag
 
 def apply_tag2link():
+    """Function to add a tag to a link."""
     pass
 
 def search_by_tag():
+    """Seach by tag"""
     pass
 
 # TagLink Functions
 def create_taglink(link_id, tag_id):
-    # Adds taglink to the database to connect tags with links. 
+    """Adds taglink to the database to connect tags with links."""
     taglink = TagLink(
-        link_id=link_id, 
+        link_id=link_id,
         tag_id=tag_id
         )
-    
+
     db.session.add(taglink)
     db.session.commit()
 
@@ -94,3 +99,4 @@ def create_taglink(link_id, tag_id):
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)
+    
