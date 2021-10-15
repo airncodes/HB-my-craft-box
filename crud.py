@@ -58,6 +58,11 @@ def add_link(name, link_path, user_id, image=None, notes=None):
 
     return link
 
+def show_links_of_user(user_id):
+    """Shows all the links that a user has added"""
+    user = User.query.filter(User.user_id == user_id).first()
+    return user.links
+
 def add_note2link():
     """Function to add a note after a link has already been added"""
     pass
@@ -73,6 +78,9 @@ def add_tag(tag):
     db.session.commit()
 
     return tag
+
+def show_tags():
+    return Tag.query.all()
 
 def apply_tag2link():
     """Function to add a tag to a link."""
@@ -99,4 +107,3 @@ def create_taglink(link_id, tag_id):
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)
-    

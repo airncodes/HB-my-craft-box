@@ -56,12 +56,6 @@ def sign_up():
     return redirect('/signup')
 
 
-@app.route('/craftbox')
-@login_required
-def show_craftbox():
-    """Shows the signup page"""
-    return render_template("craftbox.html")
-
 @app.route('/login')
 def show_login():
     """Shows the signup page"""
@@ -130,6 +124,15 @@ def add_link():
     flash('Link Added!')
     return redirect('/craftbox')
 
+@app.route('/craftbox')
+@login_required
+def show_links_tags():
+    """Shows links of the user"""
+    user_id = current_user.user_id
+    links = crud.show_links_of_user(user_id)
+    tags = crud.show_tags()
+    return render_template("craftbox.html", links=links, tags=tags)
+
 @app.route('/addtag')
 @login_required
 def show_addtag():
@@ -146,7 +149,7 @@ def add_tag():
     crud.add_tag(tag)
     flash('Tag Added!')
     return redirect('/craftbox')
-    
+
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)

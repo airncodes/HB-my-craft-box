@@ -9,10 +9,41 @@
     <li><a href="/account">View or modify your account</a></li>
     <li><a href="/logout">Logout</a></li>
   </ul>
+  <form class="search" action="search" method="GET">
+    <p>
+      Search <input type="text" name="query" placeholder="Links or Tags">
+    </p>
+    <p>
+      <input type="submit" value="Go">
+    </p>
+  </form>
 
   <h2>Actions</h2>
   <ul>
       <li><a href="addlink">Add a link</a></li>
       <li><a href="addtag">Add a tag</a></li>
+      <li><a href="applytag2link">Tag a link</a></li>
   </ul>
+
+  <section id="viewlinks">
+    <h2>Links Added</h2> 
+    <ul>
+    {% for link in links %}
+    <li>
+    {{link.name}}
+    <img src="{{ link.image }}"> 
+    {{link.link_path}}
+    </li>
+    {% endfor %}
+    </ul>
+  </section>
+
+  <section id="viewTags">
+    <h2>Tags Added</h2> 
+    <ul>
+    {% for tag in tags %}
+      <li>{{tag.tag}}</li>
+    {% endfor %}
+    </ul>
+  </section>
 {% endblock %}
