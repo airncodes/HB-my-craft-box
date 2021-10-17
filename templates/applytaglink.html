@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Apply a Tag{% endblock %}
+
+{% block body %}
+  <h1>Apply a tag to a link</h1>
+  <form>
+        Select Link to Tag
+    <select name="link">
+        {% for link in links %}
+        <option value="{{link.name}}">{{link.name}}</option>
+        {% endfor %}
+    </select>
+      
+    Apply tag(s)
+    {% for tag in tags %}
+    <input type="checkbox" name="tag2apply" value="{{tag.tag}}">
+    <label>{{tag.tag}}</label>
+    {% endfor %}
+
+    <input type="submit">
+  </form>
+
+{% endblock body %}

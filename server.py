@@ -81,11 +81,26 @@ def login():
     return redirect('/login')
 
 
-@app.route('/account')
-@login_required
-def show_account_page():
-    """Shows user's account page"""
-    pass
+# @app.route('/account')
+# @login_required
+# def show_account_page():
+#     """Shows user's account page"""
+#     if request.method == "POST":
+#         fname = request.form.get('fname')
+#         lname = request.form.get('lname')
+#         user_name = request.form.get('user_name')
+#         email = request.form.get('email')
+        
+
+#         if email != current_user.email:
+#             current_user.email=email
+#             db.session.commit()
+#             flash('Email updated')
+#         user = crud.find_user_by_email(email)
+#         if user:
+#             flash('Email already taken')
+            
+#     return render_template("accounts_page.html",)
 
 @app.route('/logout')
 def logout():
@@ -93,10 +108,13 @@ def logout():
     logout_user()
     return redirect('/')
 
-@app.route('/search')
-def user_search():
-    """Shows user search results based on their query"""
-    pass
+# @app.route('/craftbox', methods='POST')
+# def user_search():
+#     """Shows user search results based on their query"""
+#     if request.method == 'POST':
+#         query_word = request.form.get('query')
+#         crud.search_by_tag(query_word)
+#         return render_template("results.html")
 
 @app.route('/selection')
 def show_selected_item():
@@ -150,6 +168,25 @@ def add_tag():
     flash('Tag Added!')
     return redirect('/craftbox')
 
+@app.route('/applytaglink')
+@login_required
+def applytaglink():
+    """Apply tag(s) to a link form"""
+    user_id = current_user.user_id
+    links = crud.show_links_of_user(user_id)
+    tags = crud.show_tags()
+    return render_template("applytaglink.html", links=links, tags=tags)
+
+@app.route('/applytaglink', methods=['POST'])
+@login_required
+def add_tag2link():
+    """Allows a user to apply a tag"""
+    link_req = request.form.get("link")
+    tags_sel = request.form.getlist("tag2apply")
+
+    crud.apply_tag2link(link_req, tags_sel)
+    flash('Link Tagged!')
+    return redirect('/craftbox')
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)

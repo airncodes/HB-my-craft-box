@@ -65,9 +65,11 @@ def show_links_of_user(user_id):
 
 def add_note2link():
     """Function to add a note after a link has already been added"""
-    pass
+
+
 
 # Tag Functions
+
 def add_tag(tag):
     """Adds tag to database"""
     tag = Tag(
@@ -80,15 +82,25 @@ def add_tag(tag):
     return tag
 
 def show_tags():
+    """Shows all tags"""
     return Tag.query.all()
 
-def apply_tag2link():
+def apply_tag2link(link_req, tags_sel):
     """Function to add a tag to a link."""
-    pass
+    # param1 is passing in link_req and is one item
+    # param2 is passing in tag_sel and is a list
+    requested_link = Link.query.filter(Link.link_name==link_req).first()
+    for sel_tag in tags_sel:
+        linked_tag=TagLink(link_id=requested_link.link_id, tag_id=sel_tag.tag_id)
+        db.session.add(linked_tag)
+        db.session.commit()
 
-def search_by_tag():
+        return linked_tag
+
+
+def search_by_tag(query_word):
     """Seach by tag"""
-    pass
+    return Tag.query.filter(Tag.tag.like(f'%{query_word}%')).all()
 
 # TagLink Functions
 def create_taglink(link_id, tag_id):

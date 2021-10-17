@@ -93,7 +93,7 @@ class TagLink(db.Model):
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///craftbox", echo=True):
-    """Shortcut function to do connect to the db for the server file to use"""
+    """Shortcut function to do connect to the db for the server file to """
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     flask_app.config["SQLALCHEMY_ECHO"] = echo
     flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False

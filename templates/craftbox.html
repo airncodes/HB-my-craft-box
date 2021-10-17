@@ -11,7 +11,7 @@
   </ul>
   <form class="search" action="search" method="GET">
     <p>
-      Search <input type="text" name="query" placeholder="Links or Tags">
+      Search <input type="text" name="query" placeholder="Tags">
     </p>
     <p>
       <input type="submit" value="Go">
@@ -22,18 +22,16 @@
   <ul>
       <li><a href="addlink">Add a link</a></li>
       <li><a href="addtag">Add a tag</a></li>
-      <li><a href="applytag2link">Tag a link</a></li>
+      <li><a href="applytaglink">Tag a link</a></li>
   </ul>
 
   <section id="viewlinks">
     <h2>Links Added</h2> 
     <ul>
     {% for link in links %}
-    <li>
-    {{link.name}}
-    <img src="{{ link.image }}"> 
-    {{link.link_path}}
-    </li>
+    
+    <li><a href="{{link.link_path}}">{{link.name}}</a></li>
+    
     {% endfor %}
     </ul>
   </section>
