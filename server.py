@@ -108,13 +108,14 @@ def logout():
     logout_user()
     return redirect('/')
 
-# @app.route('/craftbox', methods='POST')
-# def user_search():
-#     """Shows user search results based on their query"""
-#     if request.method == 'POST':
-#         query_word = request.form.get('query')
-#         crud.search_by_tag(query_word)
-#         return render_template("results.html")
+@app.route('/search', methods=['POST'])
+@login_required
+def user_search():
+    """Shows user search results based on their query"""
+
+    query_word = request.form.get('query')
+    query_tag = crud.search_by_tag(query_word)
+    return render_template("results.html", query_word=query_word, query_tag=query_tag)
 
 @app.route('/selection')
 def show_selected_item():

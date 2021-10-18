@@ -103,7 +103,8 @@ def apply_tag2link(link_req, tags_sel):
 
 def search_by_tag(query_word):
     """Seach by tag"""
-    return Tag.query.filter(Tag.tag.like(f'%{query_word}%')).all()
+    query_tag = Tag.query.filter(Tag.tag.like(f'%{query_word}%')).first()
+    return query_tag
 
 # TagLink Functions
 def create_taglink(link_id, tag_id):
