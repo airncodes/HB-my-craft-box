@@ -148,7 +148,7 @@ def show_links_tags():
     """Shows links of the user"""
     user_id = current_user.user_id
     links = crud.show_links_of_user(user_id)
-    tags = crud.show_tags()
+    tags = crud.show_tags(user_id)
     return render_template("craftbox.html", links=links, tags=tags)
 
 @app.route('/addtag')
@@ -163,8 +163,9 @@ def add_tag():
     """Allows a user to add a link"""
 
     tag = request.form.get('tag')
+    user_id = current_user.user_id
 
-    crud.add_tag(tag)
+    crud.add_tag(tag, user_id)
     flash('Tag Added!')
     return redirect('/craftbox')
 
@@ -174,19 +175,24 @@ def applytaglink():
     """Apply tag(s) to a link form"""
     user_id = current_user.user_id
     links = crud.show_links_of_user(user_id)
-    tags = crud.show_tags()
+    tags = crud.show_tags(user_id)
     return render_template("applytaglink.html", links=links, tags=tags)
 
-@app.route('/applytaglink', methods=['POST'])
+@app.route('/applytaglink', methods=['POST', 'GET'])
 @login_required
 def add_tag2link():
     """Allows a user to apply a tag"""
-    link_req = request.form.get("link")
-    tags_sel = request.form.getlist("tag2apply")
+    if request.method == 'POST':
+        link_req = request.form.get("link")
+        # print(link_req)
+        tags_sel = request.form.getlist("tag2apply")
+        # print(tags_sel)
 
-    crud.apply_tag2link(link_req, tags_sel)
-    flash('Link Tagged!')
-    return redirect('/craftbox')
+        crud.apply_tag2link(link_req, tags_sel)
+        flash('Link Tagged!')
+        return redirect('/craftbox')
+
+
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)

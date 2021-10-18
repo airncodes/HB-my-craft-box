@@ -10,6 +10,7 @@ login_manager = LoginManager()
 db = SQLAlchemy()
 
 
+
 class User(UserMixin, db.Model):
     """A user."""
 
@@ -26,6 +27,7 @@ class User(UserMixin, db.Model):
 
 
     # links = A list of Link objects
+    # tags = A list of Tag objects
 
     def get_id(self):
         return self.user_id
@@ -68,6 +70,9 @@ class Tag(db.Model):
                         autoincrement=True,
                         primary_key=True)
     tag = db.Column(db.String(25))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
+
+    user = db.relationship("User", backref="tags")
 
     links = db.relationship("Link", secondary="tagslinks", backref="tags")
 
