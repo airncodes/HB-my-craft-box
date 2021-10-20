@@ -6,8 +6,13 @@
     <title>
       {% block title %}{% endblock %}
     </title>
+    <!-- React Script Dependencies for all pages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
 
     {% block head %}{% endblock %}
+    <link href="/static/css/styles.css" rel="stylesheet">
   </head>
   <body>
     {% with messages=get_flashed_messages() %}
