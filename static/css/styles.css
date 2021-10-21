@@ -1,0 +1,20 @@
+.grid {
+    display: grid;
+    grid-template-columns: 3fr 3fr 3fr 3fr;
+    grid-gap: 20px;
+    align-items: center;
+  }
+
+  div.card {
+    border-radius: 3px;
+    border: 3px solid black;
+    width: 16em;
+    height: 25em;
+    margin: 2em;
+    padding: 1em;
+    display: inline-block;
+  }
+
+  img {
+    height: 7em;
+  }

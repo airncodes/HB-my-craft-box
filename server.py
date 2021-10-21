@@ -145,12 +145,19 @@ def add_link():
 
 @app.route('/craftbox')
 @login_required
-def show_links_tags():
+def show_tags():
+    """Shows links of the user"""
+    user_id = current_user.user_id
+    tags = crud.show_tags(user_id)
+    return render_template("craftbox.html", tags=tags)
+
+@app.route('/craftbox.json')
+@login_required
+def show_links_cards():
     """Shows links of the user"""
     user_id = current_user.user_id
     links = crud.show_links_of_user(user_id)
-    tags = crud.show_tags(user_id)
-    return render_template("craftbox.html", links=links, tags=tags)
+    return jsonify(links)
 
 @app.route('/addtag')
 @login_required

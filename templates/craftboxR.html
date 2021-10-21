@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}My Craft Box{% endblock %}
+
+{% block body %}
+  <h1>Welcome</h1>
+  <h2>Navigation</h2>
+  <ul>
+    <li><a href="/account">View or modify your account</a></li>
+    <li><a href="/logout">Logout</a></li>
+  </ul>
+  <form class="search" action="search" method="POST">
+    <p>
+      Search <input type="text" name="query" placeholder="Tags">
+    </p>
+    <p>
+      <input type="submit" value="Go">
+    </p>
+  </form>
+  
+  <h2>Actions</h2>
+  <ul>
+      <li><a href="addlink">Add a link</a></li>
+      <li><a href="addtag">Add a tag</a></li>
+      <li><a href="applytaglink">Tag a link</a></li>
+  </ul>
+
+  <div id="linkcontainer"></div>
+
+  <section id="viewTags">
+    <h2>Tags Added</h2> 
+    <ul>
+    {% for tag in tags %}
+      <li>{{tag.tag}}</li>
+    {% endfor %}
+    </ul>
+  </section>
+{% endblock %}
+
+{% block js %}
+<script src="/static/js/linkCard.jsx" type="text/jsx"></script>
+{% endblock %}
