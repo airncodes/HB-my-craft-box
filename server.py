@@ -1,6 +1,6 @@
 """Server routes for My Craft Box app."""
 
-from flask import Flask, render_template, request, flash, redirect
+from flask import Flask, render_template, request, flash, redirect, jsonify
 from flask_login import login_required, current_user, login_user, logout_user
 from model import connect_to_db, login_manager
 import crud
@@ -146,18 +146,36 @@ def add_link():
 @app.route('/craftbox')
 @login_required
 def show_tags():
-    """Shows links of the user"""
+    """Shows tags of the user"""
     user_id = current_user.user_id
     tags = crud.show_tags(user_id)
-    return render_template("craftbox.html", tags=tags)
+    return render_template("craftboxR.html", tags=tags)
 
 @app.route('/craftbox.json')
 @login_required
 def show_links_cards():
     """Shows links of the user"""
     user_id = current_user.user_id
-    links = crud.show_links_of_user(user_id)
-    return jsonify(links)
+    cards = crud.show_links_of_user(user_id)
+    
+    #cards is [<Link >, <Link >]
+    links = [
+        {
+            "name":"CREAMY CHICKEN AND RICE SKILLET",
+            "link_path": "https://www.budgetbytes.com/creamy-chicken-and-rice-skillet/",
+            "image": "https://www.budgetbytes.com/wp-content/uploads/2020/02/Creamy-Chicken-and-Rice-Skillet-V2.jpg",
+            "notes": "I added half a teaspon of smoked paprika to have a little extra heat",
+        },
+        {
+            "name":"Autumn Kale Salad",
+            "link_path": "https://www.budgetbytes.com/autumn-kale-and-sweet-potato-salad/",
+            "image": "https://www.budgetbytes.com/wp-content/uploads/2020/10/Autumn-Kale-and-Sweet-Potato-Salad-front.jpg" ,
+            "notes": "Very delicious!"
+        },
+    ]
+    # Convert this:[<Link >, <Link >]
+    # To:[{"name": }, {}]
+    return jsonify({"cards": cards})
 
 @app.route('/addtag')
 @login_required
@@ -192,9 +210,7 @@ def add_tag2link():
     """Allows a user to apply a tag"""
     if request.method == 'POST':
         link_req = request.form.get("link")
-        # print(link_req)
         tags_sel = request.form.getlist("tag2apply")
-        # print(tags_sel)
 
         crud.apply_tag2link(link_req, tags_sel)
         flash('Link Tagged!')

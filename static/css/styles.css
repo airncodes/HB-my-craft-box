@@ -1,20 +1,24 @@
 .grid {
-    display: grid;
-    grid-template-columns: 3fr 3fr 3fr 3fr;
-    grid-gap: 20px;
-    align-items: center;
-  }
+  display: grid;
+  grid-template-columns: 3fr 3fr 3fr 3fr;
+  grid-gap: 20px;
+  align-items: center;
+}
 
-  div.card {
-    border-radius: 3px;
-    border: 3px solid black;
-    width: 16em;
-    height: 25em;
-    margin: 2em;
-    padding: 1em;
-    display: inline-block;
-  }
+div.card {
+  border-radius: 3px;
+  border: 3px solid black;
+  width: 16em;
+  height: 16em;
+  margin: 2em;
+  padding: 1em;
+  display: inline-block;
+  align-items: center;
+}
 
-  img {
-    height: 7em;
-  }
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 10em;
+}

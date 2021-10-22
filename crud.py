@@ -59,9 +59,10 @@ def add_link(name, link_path, user_id, image=None, notes=None):
     return link
 
 def show_links_of_user(user_id):
-    """Shows all the links that a user has added"""
+    """Shows all the links that a user has added and converts the objects from a list of 
+    objects to a list of of dictionaries"""
     user = User.query.filter(User.user_id == user_id).first()
-    return user.links
+    return [ link.conv_to_dict() for link in user.links ]
 
 def add_note2link():
     """Function to add a note after a link has already been added"""

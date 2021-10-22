@@ -61,6 +61,14 @@ class Link(db.Model):
     def __repr__(self):
         return f'<Link link_id={self.link_id} name={self.name}>'
 
+    def conv_to_dict(self):
+        return {
+            "name": self.name, 
+            "link_path":self.link_path,
+            "image": self.image,
+            "notes": self.notes
+            }
+
 class Tag(db.Model):
     """A sort tag."""
 
