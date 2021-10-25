@@ -2,18 +2,17 @@
   display: grid;
   grid-template-columns: 3fr 3fr 3fr 3fr;
   grid-gap: 20px;
-  align-items: center;
+  align-items: normal;
 }
 
 div.card {
   border-radius: 3px;
   border: 3px solid black;
-  width: 16em;
-  height: 16em;
+  width: 20em;
+  height: 20em;
   margin: 2em;
   padding: 1em;
   display: inline-block;
-  align-items: center;
 }
 
 img {
@@ -21,4 +20,84 @@ img {
   margin-left: auto;
   margin-right: auto;
   height: 10em;
+}
+
+.modal-container {
+  z-index: 999;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 80vw;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  font-size: 15px;
+  font-weight: bold;
+  color: #62626e;
+}
+
+.modal-content {
+  width: 80%;
+  height: 90%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #d8dce3;
+  border-radius: 3px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.5);
+  background-color: #f7f8fa;
+}
+
+.modal-header {
+  padding: 9px 10px;
+  padding-left: 20px;
+  height: 38px;
+  font-size: 15px;
+  position: relative;
+}
+
+.cross-btn {
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  position: absolute;
+  right: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.modal-body {
+  flex-grow: 1;
+  border-top: solid 1px #d8dce3;
+  padding: 14px 29px 14px 19px;
+}
+
+.modal-footer {
+  border-top: solid 1px #d8dce3;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close-btn {
+  font-weight: 600;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 2px 0px;
+  background-color: rgb(77, 144, 255);
+  color: rgb(247, 248, 250);
+  height: 35px;
+  width: 117px;
+  font-size: 14px;
+  border-radius: 3px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(43, 123, 255);
+  cursor: pointer;
+}
+
+body {
+  margin: 10px;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
