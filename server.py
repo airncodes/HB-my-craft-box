@@ -177,6 +177,22 @@ def show_links_cards():
     # To:[{"name": }, {}]
     return jsonify({"cards": cards})
 
+@app.route("/edit-card", methods=["POST"])
+def edit_card():
+    """Add a new card to the DB."""
+    name = request.get_json().get("name")
+    image = request.get_json().get("image")
+    notes = request.get_json().get("notes")
+    delete = request.get_json().get("delete")
+
+    edit_card = {
+        "name": name,
+        "image": image,
+        "notes": notes,
+    }
+    """Iterate through the responses, if responses are not empty call edit function(s) to update the link."""
+    return jsonify()
+
 @app.route('/addtag')
 @login_required
 def show_addtag():

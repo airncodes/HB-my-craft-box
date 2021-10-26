@@ -9,8 +9,9 @@ function LinkCard(props) {
       <button onClick={() => setIsModalVisible(true)}>Edit</button>
       {isModalVisible && (
         <Modal onModalClose={() => setIsModalVisible(false)}>
-          <Modal.Header>Edit Card</Modal.Header>
-          <Modal.Body>Body</Modal.Body>
+          <Modal.Header>Edit {props.name} Card
+          </Modal.Header>
+          <Modal.Form>Options</Modal.Form>
           <Modal.Footer>
             <Modal.Footer.CloseBtn>Close</Modal.Footer.CloseBtn>
           </Modal.Footer>
@@ -80,8 +81,54 @@ Modal.Header = function ModalHeader(props) {
   );
 };
 
-Modal.Body = function ModalBody(props) {
-  return <div className="modal-body">{props.children}</div>;
+Modal.Form = function ModalForm(props) {
+  const [name, setName] = React.useState('');
+  const [image, setImage] = React.useState('');
+  const [notes, setNotes] = React.useState('');
+
+  function editCard() {
+    fetch('/edit-card', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({name, image, notes}),
+    }).then(response => {
+      response.json().then(jsonResponse => {
+        const {cardEdited} = jsonResponse; // same as cardAdded = jsonResponse.cardAdded
+        const {name: cardName, image: cardImage, notes: cardNotes} = cardEdited;
+        props.editCard(cardName, cardImage, cardNotes);
+      });
+    });
+  }
+  
+  return (
+    <React.Fragment>
+    <h2>Edit Card Options</h2>
+    <label htmlFor="nameInput">
+      Name
+      <input
+        value={name}
+        onChange={event => setName(event.target.value)}
+        id="nameInput"
+        style={{marginLeft: '5px'}}
+      />
+    </label>
+
+    <label htmlFor="imageInput" style={{marginLeft: '10px', marginRight: '5px'}}>
+      Image
+      <input value={image} onChange={event => setSkill(event.target.value)} id="imageInput" />
+    </label>
+
+    <label htmlFor="notesInput" style={{marginLeft: '10px', marginRight: '5px'}}>
+      Notes
+      <input value={notes} onChange={event => setSkill(event.target.value)} id="imageInput" />
+    </label>
+    
+    <button className="submit-btn" onClick={editCard}>
+      Make Change
+    </button>
+  </React.Fragment>);
 };
 
 Modal.Footer = function ModalFooter(props) {
