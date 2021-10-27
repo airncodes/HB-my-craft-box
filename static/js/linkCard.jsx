@@ -8,7 +8,7 @@ function LinkCard(props) {
       <p> Notes: {props.notes} </p>
       <button onClick={() => setIsModalVisible(true)}>Edit</button>
       {isModalVisible && (
-        <Modal onModalClose={() => setIsModalVisible(false)}>
+        <Modal onModalClose={() => {setIsModalVisible(false), window.location.reload()}}>
           <Modal.Header>Edit {props.name} Card -{props.link_id}
           </Modal.Header>
           <Modal.Form link_id={props.link_id}>Options</Modal.Form>
@@ -86,7 +86,7 @@ Modal.Form = function ModalForm(props) {
   const [image, setImage] = React.useState('');
   const [notes, setNotes] = React.useState('');
   const link_id = props.link_id;
-  console.log(props.link_id);
+  // console.log(props.link_id);
 
 
   function editCard() {
