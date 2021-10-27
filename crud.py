@@ -58,14 +58,34 @@ def add_link(name, link_path, user_id, image=None, notes=None):
 
     return link
 
+
 def show_links_of_user(user_id):
     """Shows all the links that a user has added and converts the objects from a list of 
     objects to a list of of dictionaries"""
     user = User.query.filter(User.user_id == user_id).first()
     return [ link.conv_to_dict() for link in user.links ]
 
-def add_note2link():
-    """Function to add a note after a link has already been added"""
+
+## Edit link card functions.
+def edit_link_name(link_id, name):
+    """Edits the name of a link record"""
+    to_edit = Link.query.get(link_id)
+    to_edit.name = name
+    db.session.commit()
+
+
+def edit_link_image(link_id, image):
+    """Edits the image path of a link record"""
+    to_edit = Link.query.get(link_id)
+    to_edit.image = image
+    db.session.commit()
+
+
+def edit_link_notes(link_id, notes):
+    """Function to add or edit a note after a link has already been added"""
+    to_edit = Link.query.get(link_id)
+    to_edit.notes = notes
+    db.session.commit()
 
 
 

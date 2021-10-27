@@ -90,8 +90,6 @@ def login():
 #         lname = request.form.get('lname')
 #         user_name = request.form.get('user_name')
 #         email = request.form.get('email')
-        
-
 #         if email != current_user.email:
 #             current_user.email=email
 #             db.session.commit()
@@ -99,7 +97,6 @@ def login():
 #         user = crud.find_user_by_email(email)
 #         if user:
 #             flash('Email already taken')
-            
 #     return render_template("accounts_page.html",)
 
 @app.route('/logout')
@@ -157,22 +154,8 @@ def show_links_cards():
     """Shows links of the user"""
     user_id = current_user.user_id
     cards = crud.show_links_of_user(user_id)
-    
-    #cards is [<Link >, <Link >]
-    links = [
-        {
-            "name":"CREAMY CHICKEN AND RICE SKILLET",
-            "link_path": "https://www.budgetbytes.com/creamy-chicken-and-rice-skillet/",
-            "image": "https://www.budgetbytes.com/wp-content/uploads/2020/02/Creamy-Chicken-and-Rice-Skillet-V2.jpg",
-            "notes": "I added half a teaspon of smoked paprika to have a little extra heat",
-        },
-        {
-            "name":"Autumn Kale Salad",
-            "link_path": "https://www.budgetbytes.com/autumn-kale-and-sweet-potato-salad/",
-            "image": "https://www.budgetbytes.com/wp-content/uploads/2020/10/Autumn-Kale-and-Sweet-Potato-Salad-front.jpg" ,
-            "notes": "Very delicious!"
-        },
-    ]
+
+    # Cards is [<Link >, <Link >]
     # Convert this:[<Link >, <Link >]
     # To:[{"name": }, {}]
     return jsonify({"cards": cards})
@@ -183,14 +166,21 @@ def edit_card():
     name = request.get_json().get("name")
     image = request.get_json().get("image")
     notes = request.get_json().get("notes")
-    delete = request.get_json().get("delete")
-
-    edit_card = {
-        "name": name,
-        "image": image,
-        "notes": notes,
-    }
-    """Iterate through the responses, if responses are not empty call edit function(s) to update the link."""
+    link_id = request.get_json().get("link_id")
+    print(link_id)
+    
+    # Iterate through the responses, if responses are not empty call edit function(s) to update the link.
+    if name:
+        print(name)
+        crud.edit_link_name(link_id, name)
+    if image:
+        crud.edit_link_image(link_id, image)
+    if notes:
+        print(notes)
+        crud.edit_link_notes(link_id, notes)
+   
+    
+    flash('Link Edited!')
     return jsonify()
 
 @app.route('/addtag')

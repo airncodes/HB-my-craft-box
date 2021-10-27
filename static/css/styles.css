@@ -44,17 +44,16 @@ img {
   position: relative;
   display: flex;
   flex-direction: column;
-  border: 1px solid #d8dce3;
-  border-radius: 3px;
+  border: 2px solid #d8dce3;
+  border-radius: 5px;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.5);
   background-color: #f7f8fa;
 }
 
 .modal-header {
-  padding: 9px 10px;
-  padding-left: 20px;
+  padding: 10px 10px;
+  padding-left: 10px;
   height: 38px;
-  font-size: 15px;
   position: relative;
 }
 
@@ -72,7 +71,7 @@ img {
 .modal-form {
   flex-grow: 1;
   border-top: solid 1px #d8dce3;
-  padding: 14px 29px 14px 19px;
+  padding: 14px 19px 14px 19px;
 }
 
 .submit-btn {
@@ -86,7 +85,7 @@ img {
   border-radius: 3px;
   border-width: 1px;
   border-style: solid;
-  border-color: rgb(43, 123, 255);
+  border-color: rgb(4, 150, 101);
   cursor: pointer;
 }
 

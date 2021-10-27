@@ -4,14 +4,14 @@ function LinkCard(props) {
   return (
     <div className="card">
       <img src={props.image} alt="Image not available"/>
-      <p><a href="{props.link_path}">{props.name}</a></p>
+      <p><a href={props.link_path}>{props.name}</a></p>
       <p> Notes: {props.notes} </p>
       <button onClick={() => setIsModalVisible(true)}>Edit</button>
       {isModalVisible && (
         <Modal onModalClose={() => setIsModalVisible(false)}>
-          <Modal.Header>Edit {props.name} Card
+          <Modal.Header>Edit {props.name} Card -{props.link_id}
           </Modal.Header>
-          <Modal.Form>Options</Modal.Form>
+          <Modal.Form link_id={props.link_id}>Options</Modal.Form>
           <Modal.Footer>
             <Modal.Footer.CloseBtn>Close</Modal.Footer.CloseBtn>
           </Modal.Footer>
@@ -73,7 +73,7 @@ Modal.Header = function ModalHeader(props) {
 
   return (
     <div className="modal-header">
-      {props.children}
+      <h3>{props.children}</h3>
       <button className="cross-btn" title="close modal" onClick={onModalClose}>
         ✕
       </button>
@@ -85,6 +85,9 @@ Modal.Form = function ModalForm(props) {
   const [name, setName] = React.useState('');
   const [image, setImage] = React.useState('');
   const [notes, setNotes] = React.useState('');
+  const link_id = props.link_id;
+  console.log(props.link_id);
+
 
   function editCard() {
     fetch('/edit-card', {
@@ -92,39 +95,37 @@ Modal.Form = function ModalForm(props) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({name, image, notes}),
+      body: JSON.stringify({link_id, name, image, notes}),
     }).then(response => {
-      response.json().then(jsonResponse => {
-        const {cardEdited} = jsonResponse; // same as cardAdded = jsonResponse.cardAdded
-        const {name: cardName, image: cardImage, notes: cardNotes} = cardEdited;
-        props.editCard(cardName, cardImage, cardNotes);
-      });
+      console.log(response)
+      // response.json().then(jsonResponse => {
+      //   // const {cardEdited} = jsonResponse; 
+      //   // const {name: cardName, image: cardImage, notes: cardNotes} = cardEdited;
+      //   // props.editCard(cardName, cardImage, cardNotes);
+      //   console.log(jsonResponse)
+      // });
     });
   }
   
   return (
     <React.Fragment>
-    <h2>Edit Card Options</h2>
-    <label htmlFor="nameInput">
+    <h4>Edit Card Options</h4>
+    <label htmlFor="nameInput" style={{marginLeft: '10px'}}>
       Name
-      <input
-        value={name}
-        onChange={event => setName(event.target.value)}
-        id="nameInput"
-        style={{marginLeft: '5px'}}
-      />
+      <input value={name} onChange={event => setName(event.target.value)} id="nameInput"/>
     </label>
-
-    <label htmlFor="imageInput" style={{marginLeft: '10px', marginRight: '5px'}}>
+    <br />
+    <label htmlFor="imageInput" style={{marginLeft: '10px'}}>
       Image
-      <input value={image} onChange={event => setSkill(event.target.value)} id="imageInput" />
+      <input value={image} onChange={event => setImage(event.target.value)} id="imageInput" />
     </label>
-
-    <label htmlFor="notesInput" style={{marginLeft: '10px', marginRight: '5px'}}>
+    <br />
+    <label htmlFor="notesInput" style={{marginLeft: '10px'}}>
       Notes
-      <input value={notes} onChange={event => setSkill(event.target.value)} id="imageInput" />
+      <input value={notes} onChange={event => setNotes(event.target.value)} id="notesInput" />
     </label>
-    
+    <br />
+    <input type="number" name="link_id" defaultValue={props.link_id} hidden></input>
     <button className="submit-btn" onClick={editCard}>
       Make Change
     </button>
@@ -170,7 +171,8 @@ function LinkCardContainer() {
   for (const currentCard of cards) {
     linkCards.push(
       <LinkCard
-      // const newCard = {image, link_path, name, notes};
+      // const newCard = {link_id, image, link_path, name, notes};
+        link_id={currentCard.link_id}
         image={currentCard.image}
         link_path={currentCard.link_path}
         name={currentCard.name}

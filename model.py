@@ -63,6 +63,7 @@ class Link(db.Model):
 
     def conv_to_dict(self):
         return {
+            "link_id": self.link_id,
             "name": self.name, 
             "link_path":self.link_path,
             "image": self.image,
