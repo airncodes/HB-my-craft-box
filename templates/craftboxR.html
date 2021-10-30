@@ -3,40 +3,50 @@
 {% block title %}My Craft Box{% endblock %}
 
 {% block body %}
-  <h1>Welcome</h1>
-  <h2>Navigation</h2>
-  <ul>
-    <li><a href="/account">View or modify your account</a></li>
-    <li><a href="/logout">Logout</a></li>
-  </ul>
-  <form class="search" action="search" method="POST">
-    <p>
-      Search <input type="text" name="query" placeholder="Tags">
-    </p>
-    <p>
-      <input type="submit" value="Go">
-    </p>
-  </form>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="/">MyCraftBox</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav m-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <form class="form-inline" action="search" method="POST">
+          <input class="form-control mr-sm-2" type="text" name="query" placeholder="Search Tags" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <li class="nav-item active">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>  
   
-  <h2>Actions</h2>
-  <ul>
-      <li><a href="addlink">Add a link</a></li>
-      <li><a href="addtag">Add a tag</a></li>
-      <li><a href="applytaglink">Tag a link</a></li>
-  </ul>
+  <nav class="nav flex-column">
+    <h2>Actions</h2>
+    <a class="nav-link active" href="addlink">Add a link</a>
+    <a class="nav-link" href="addtag">Add a tag</a>
+    <a class="nav-link" href="applytaglink">Tag a link</a>
+  </nav>
 
-  <div id="linkcontainer"></div>
+  
+  <div class="col-9">
+    <div class="tab-content" id="nav-tabContent">
+      <div id="linkcontainer"></div>
+    </div>
+  </div>
+</div>
+<!--  filterCard.jsx substitution -->
 
-  <section id="viewTags">
-    <h2>Tags Added</h2> 
-    <ul>
-    {% for tag in tags %}
-      <li>{{tag.tag}}</li>
-    {% endfor %}
-    </ul>
-  </section>
+  <div id="buttoncontainer"></div>
+  
+
 {% endblock %}
 
 {% block js %}
 <script src="/static/js/linkCard.jsx" type="text/jsx"></script>
+<script src="/static/js/button_tags.jsx" type="text/jsx"></script>
 {% endblock %}

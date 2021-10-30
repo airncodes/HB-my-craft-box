@@ -1,11 +1,12 @@
 // Link card function to create a card of the link(s) added.
+
 function LinkCard(props) {
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   return (
     <div className="card">
       <img src={props.image} alt="Image not available"/>
       <p><a href={props.link_path}>{props.name}</a></p>
-      <p> Notes: {props.notes} </p>
+      <p className="notes"> Notes: {props.notes} </p>
       <button onClick={() => setIsModalVisible(true)}>Edit</button>
       {isModalVisible && (
         <Modal onModalClose={() => {setIsModalVisible(false), window.location.reload()}}>
@@ -98,36 +99,45 @@ Modal.Form = function ModalForm(props) {
       body: JSON.stringify({link_id, name, image, notes}),
     }).then(response => {
       console.log(response)
-      // response.json().then(jsonResponse => {
-      //   // const {cardEdited} = jsonResponse; 
-      //   // const {name: cardName, image: cardImage, notes: cardNotes} = cardEdited;
-      //   // props.editCard(cardName, cardImage, cardNotes);
-      //   console.log(jsonResponse)
-      // });
+    });
+  }
+
+  function delCard() {
+    fetch('/del-card', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({link_id}),
+    }).then(response => {
+      console.log(response)
     });
   }
   
+  
   return (
     <React.Fragment>
-    <h4>Edit Card Options</h4>
     <label htmlFor="nameInput" style={{marginLeft: '10px'}}>
       Name
-      <input value={name} onChange={event => setName(event.target.value)} id="nameInput"/>
+      <input className="modal-input" value={name} onChange={event => setName(event.target.value)} id="nameInput"/>
     </label>
     <br />
     <label htmlFor="imageInput" style={{marginLeft: '10px'}}>
       Image
-      <input value={image} onChange={event => setImage(event.target.value)} id="imageInput" />
+      <input className="modal-input" value={image} onChange={event => setImage(event.target.value)} id="imageInput" />
     </label>
     <br />
     <label htmlFor="notesInput" style={{marginLeft: '10px'}}>
       Notes
-      <input value={notes} onChange={event => setNotes(event.target.value)} id="notesInput" />
+      <input className="modal-input" value={notes} onChange={event => setNotes(event.target.value)} id="notesInput" />
     </label>
     <br />
-    <input type="number" name="link_id" defaultValue={props.link_id} hidden></input>
+    <input className="modal-input" type="number" name="link_id" defaultValue={props.link_id} hidden></input>
     <button className="submit-btn" onClick={editCard}>
       Make Change
+    </button>
+    <button className="del-btn" onClick={delCard}>
+      Delete
     </button>
   </React.Fragment>);
 };
@@ -182,8 +192,7 @@ function LinkCardContainer() {
   }
   return (
     <React.Fragment>
-      <linkCards addCard={addCard} />
-      <h2>Links</h2>
+      <h2>All Links</h2>
       <div className="grid">{linkCards}</div>
     </React.Fragment>
   );

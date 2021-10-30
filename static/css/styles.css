@@ -1,6 +1,6 @@
 .grid {
   display: grid;
-  grid-template-columns: 3fr 3fr 3fr 3fr;
+  grid-template-columns: 3fr 3fr;
   grid-gap: 20px;
   align-items: normal;
 }
@@ -12,7 +12,17 @@ div.card {
   height: 20em;
   margin: 2em;
   padding: 1em;
+  box-sizing: content-box;
   display: inline-block;
+}
+
+p.notes {
+  width: 320px;
+  height: 75px;
+  border: 1px solid;
+  padding: 2px 5px;
+  white-space: wrap;
+  overflow: scroll;
 }
 
 img {
@@ -71,7 +81,18 @@ img {
 .modal-form {
   flex-grow: 1;
   border-top: solid 1px #d8dce3;
-  padding: 14px 19px 14px 19px;
+  padding: 10px 20px;
+  margin: 5px;
+}
+
+.modal-input {
+  width: 90%;
+  height: 100%;
+  margin: 5px;
+  border: 1px solid;
+  padding: 5px;
+  white-space: wrap;
+  overflow: scroll;
 }
 
 .submit-btn {
@@ -87,6 +108,23 @@ img {
   border-style: solid;
   border-color: rgb(4, 150, 101);
   cursor: pointer;
+  margin: 10px;
+}
+
+.del-btn {
+  font-weight: 600;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 2px 0px;
+  background-color: rgb(179, 3, 3);
+  color: rgb(247, 248, 250);
+  height: 35px;
+  width: 117px;
+  font-size: 14px;
+  border-radius: 3px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(150, 4, 4);
+  cursor: pointer;
+  margin: 10px;
 }
 
 .modal-footer {
@@ -114,4 +152,20 @@ img {
 body {
   margin: 10px;
   font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+.filter-btn {
+  font-weight: 600;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 2px 0px;
+  background-color: rgb(3, 179, 120);
+  color: rgb(247, 248, 250);
+  height: 35px;
+  width: 117px;
+  font-size: 14px;
+  border-radius: 3px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(4, 150, 101);
+  cursor: pointer;
+  margin: 10px;
 }

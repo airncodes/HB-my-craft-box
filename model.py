@@ -62,6 +62,7 @@ class Link(db.Model):
         return f'<Link link_id={self.link_id} name={self.name}>'
 
     def conv_to_dict(self):
+        """Converts to a dictionary for json"""
         return {
             "link_id": self.link_id,
             "name": self.name, 
@@ -69,6 +70,7 @@ class Link(db.Model):
             "image": self.image,
             "notes": self.notes
             }
+
 
 class Tag(db.Model):
     """A sort tag."""
@@ -86,9 +88,15 @@ class Tag(db.Model):
     links = db.relationship("Link", secondary="tagslinks", backref="tags")
 
 
-
     def __repr__(self):
         return f'<Tag tag_id={self.tag_id} tag={self.tag}>'
+    
+    def conv_tag_to_dict(self):
+        """Converts to a dictionary for json"""
+        return {
+            "tag_id": self.tag_id,
+            "tag": self.tag
+            }
 
 class TagLink(db.Model):
     """Association table for Tag and Link."""

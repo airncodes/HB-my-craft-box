@@ -80,25 +80,6 @@ def login():
     flash('Invalid email or password. Try again.')
     return redirect('/login')
 
-
-# @app.route('/account')
-# @login_required
-# def show_account_page():
-#     """Shows user's account page"""
-#     if request.method == "POST":
-#         fname = request.form.get('fname')
-#         lname = request.form.get('lname')
-#         user_name = request.form.get('user_name')
-#         email = request.form.get('email')
-#         if email != current_user.email:
-#             current_user.email=email
-#             db.session.commit()
-#             flash('Email updated')
-#         user = crud.find_user_by_email(email)
-#         if user:
-#             flash('Email already taken')
-#     return render_template("accounts_page.html",)
-
 @app.route('/logout')
 def logout():
     """Logs out for the user"""
@@ -110,20 +91,18 @@ def logout():
 def user_search():
     """Shows user search results based on their query"""
 
-    query_word = request.form.get('query')
+    query_word = request.form.get('query').title()
     query_tag = crud.search_by_tag(query_word)
     return render_template("results.html", query_word=query_word, query_tag=query_tag)
 
-@app.route('/selection')
-def show_selected_item():
-    """Shows page for the selected item"""
-    pass
 
 @app.route('/addlink')
 @login_required
 def show_addlink():
     """Shows the addlink form"""
-    return render_template("addlink.html")
+    user_id = current_user.user_id
+    tags = crud.show_tags(user_id)
+    return render_template("addlink.html", tags=tags)
 
 @app.route('/addlink', methods=['POST'])
 @login_required
@@ -136,17 +115,30 @@ def add_link():
     image = request.form.get('image')
     notes = request.form.get('notes')
 
-    crud.add_link(name, link_path, user_id, image, notes)
+    # Creates link
+    new_link = crud.add_link(name, link_path, user_id, image, notes)
+    link_req = name
+    # If link is tagged, creates the taglink association.
+    tags_sel = request.form.getlist("tag2apply")
+    if tags_sel:
+        crud.apply_tag2link(link_req, tags_sel)
     flash('Link Added!')
     return redirect('/craftbox')
 
 @app.route('/craftbox')
 @login_required
+def show_craftbox():
+    """Shows main craftbox page"""
+    return render_template("craftboxR.html")
+
+@app.route('/craftboxb.json')
+@login_required
 def show_tags():
     """Shows tags of the user"""
     user_id = current_user.user_id
-    tags = crud.show_tags(user_id)
-    return render_template("craftboxR.html", tags=tags)
+    buttons = crud.conv_tags_for_react(user_id)
+    return jsonify({"buttons": buttons})
+
 
 @app.route('/craftbox.json')
 @login_required
@@ -182,6 +174,29 @@ def edit_card():
     
     flash('Link Edited!')
     return jsonify()
+
+@app.route("/del-card", methods=["POST"])
+def delete_card():
+    """Delete a card to the DB."""
+    link_id = request.get_json().get("link_id")
+    print(link_id)
+    crud.del_link_card(link_id)
+   
+    flash('Link Removed!')
+    return jsonify()
+
+
+@app.route('/craftboxF.json')
+@login_required
+def filter_view():
+    """Shows user a filterable view of their link cards"""
+    # user_id = current_user.user_id
+    # tags = crud.conv_tags_for_react(user_id)(user_id)  # All User's Tags
+    # cards = crud.show_links_of_user(user_id) # All User's Cards
+    # query_word = request.args.get('tag').title() 
+    # fcards = crud.filter_by_tag(query_word) # Filtered Cards based on Tag
+    return jsonify({"fcards": "fcards go here", "cards": "cards go her", "tags": ["apple", "berry", "cherry"]})
+
 
 @app.route('/addtag')
 @login_required
