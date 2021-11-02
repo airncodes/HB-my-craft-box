@@ -3,46 +3,97 @@
 {% block title %}My Craft Box{% endblock %}
 
 {% block body %}
-  <h1>Welcome</h1>
-  <h2>Navigation</h2>
-  <ul>
-    <li><a href="/account">View or modify your account</a></li>
-    <li><a href="/logout">Logout</a></li>
-  </ul>
-  <form class="search" action="search" method="POST">
-    <p>
-      Search <input type="text" name="query" placeholder="Tags">
-    </p>
-    <p>
-      <input type="submit" value="Go">
-    </p>
-  </form>
-  
-  <h2>Actions</h2>
-  <ul>
-      <li><a href="addlink">Add a link</a></li>
-      <li><a href="addtag">Add a tag</a></li>
-      <li><a href="applytaglink">Tag a link</a></li>
-  </ul>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="/">MyCraftBox</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <!-- <section id="viewlinks">
-    <h2>Links Added</h2> 
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav m-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>  
+
+  <nav class="nav flex-column">
+    <h2>Actions</h2>
+    <a class="nav-link active" href="addlink">Add a link</a>
+    <a class="nav-link" href="addtag">Add a tag</a>
+    <a class="nav-link" href="applytaglink">Tag a link</a>
+    <div id="buttoncontainer"></div>
+  </nav>
+
+  <form class="form-inline" action="/search" method="POST">
+    <label for="sel1">Search by Tag:</label>
+    <select class="form-select" name="query">
+      <option value=''>Open Tag Menu</option>
+      {% for tag in tags %}
+      <option value="{{tag.tag}}">{{tag.tag}}</option>
+      {% endfor %}
+    </select>
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+
+  <section id="viewlinks">
+    <h2>All Links</h2> 
     <ul>
     {% for link in links %}
-    
-    <li><a href="{{link.link_path}}">{{link.name}}</a></li>
-    
-    {% endfor %}
-    </ul>
-  </section> -->
-  <div id="linkcontainer"></div>
-
-  <section id="viewTags">
-    <h2>Tags Added</h2> 
-    <ul>
-    {% for tag in tags %}
-      <li>{{tag.tag}}</li>
+      <div class="card" style="width:400px">
+        <img class="rounded" src={{ link.image }} alt="Image not available">
+        <div class="card-body">
+          <h4 class="card-title">{{ link.name }} {{ link.link_id }}</h4>
+          <p class="card-text">{{link.notes}}.</p>
+          <a href="{{ link.link_path }}" class="btn btn-primary">Go to Link</a>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="{{link.link_id}}">Edit</button>
+        </div>
+        <div class="modal" id="exampleModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+      
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Edit {{ link.name }} Card.</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+      
+              <!-- Modal body -->
+              <div class="modal-body">
+                <form class="form-inline" action="/craftbox/{{ link.link_id }}/edit" method="POST">
+                  <div class="form-group">
+                    <label for="Change card name">Name</label>
+                    <input type="text" name="name" class="form-control" id="{{ link.link_id }}" aria-describedby="namechange" placeholder="Rename card name?">
+                  </div>
+                  <div class="form-group">
+                    <label for="Change card image">Image</label>
+                    <input type="text" name="image" class="form-control" id="{{ link.link_id }}" placeholder="Change image?">
+                  </div>
+                  <div class="form-group">
+                    <label for="Edit or Add a note">Edit/Add Note</label>
+                    <input type="textarea" name="notes" class="form-control" id="{{ link.link_id }}" placeholder="Notes">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              </div>
+      
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+              </div>
+      
+            </div>
+          </div>
+        </div>
+      </div>
     {% endfor %}
     </ul>
   </section>
+
+  
+
 {% endblock %}

@@ -14,10 +14,6 @@
         <li class="nav-item active">
           <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
         </li>
-        <form class="form-inline" action="search" method="POST">
-          <input class="form-control mr-sm-2" type="text" name="query" placeholder="Search Tags" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
         <li class="nav-item active">
           <a class="nav-link" href="/logout">Logout</a>
         </li>
@@ -31,22 +27,28 @@
     <a class="nav-link" href="addtag">Add a tag</a>
     <a class="nav-link" href="applytaglink">Tag a link</a>
   </nav>
-
   
+  <div id="buttoncontainer"></div>
+  
+  <div id="filtercontainer"></div>
+
   <div class="col-9">
     <div class="tab-content" id="nav-tabContent">
       <div id="linkcontainer"></div>
     </div>
   </div>
 </div>
-<!--  filterCard.jsx substitution -->
 
-  <div id="buttoncontainer"></div>
+
+  
   
 
 {% endblock %}
 
 {% block js %}
-<script src="/static/js/linkCard.jsx" type="text/jsx"></script>
 <script src="/static/js/button_tags.jsx" type="text/jsx"></script>
+<script src="/static/js/filterCard.jsx" type="text/jsx"></script>
+<script src="/static/js/linkCard.jsx" type="text/jsx"></script>
+
+
 {% endblock %}

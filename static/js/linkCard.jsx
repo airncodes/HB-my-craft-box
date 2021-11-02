@@ -180,7 +180,7 @@ function LinkCardContainer() {
 
   for (const currentCard of cards) {
     linkCards.push(
-      <LinkCard
+      <LinkCard addCard={addCard}
       // const newCard = {link_id, image, link_path, name, notes};
         link_id={currentCard.link_id}
         image={currentCard.image}

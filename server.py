@@ -86,14 +86,30 @@ def logout():
     logout_user()
     return redirect('/')
 
-@app.route('/search', methods=['POST'])
+@app.route('/results')
 @login_required
 def user_search():
     """Shows user search results based on their query"""
 
-    query_word = request.form.get('query').title()
-    query_tag = crud.search_by_tag(query_word)
-    return render_template("results.html", query_word=query_word, query_tag=query_tag)
+    # query_word = request.get_json().get('query')
+    # fcards = crud.search_by_tag(query_word)
+    return render_template("results.html")
+
+@app.route('/craftboxr.json', methods=['POST', 'GET'])
+@login_required
+def show_results_cards():
+    """Shows links of the user""" 
+    print('**********')
+    print("I am about to print...")
+    print(request.form.to_dict(flat=False))
+    query_wd = request.get_json().get("tag")
+    print('**********')
+    print("Next printing query_word")
+    print(query_wd)
+    fcards = crud.search_by_tag(query_wd) # Filtered Cards
+    print('**********')
+    print(fcards)
+    return jsonify({"fcards": fcards})
 
 
 @app.route('/addlink')
@@ -116,7 +132,7 @@ def add_link():
     notes = request.form.get('notes')
 
     # Creates link
-    new_link = crud.add_link(name, link_path, user_id, image, notes)
+    crud.add_link(name, link_path, user_id, image, notes)
     link_req = name
     # If link is tagged, creates the taglink association.
     tags_sel = request.form.getlist("tag2apply")
@@ -138,7 +154,6 @@ def show_tags():
     user_id = current_user.user_id
     buttons = crud.conv_tags_for_react(user_id)
     return jsonify({"buttons": buttons})
-
 
 @app.route('/craftbox.json')
 @login_required
@@ -186,16 +201,16 @@ def delete_card():
     return jsonify()
 
 
-@app.route('/craftboxF.json')
-@login_required
-def filter_view():
-    """Shows user a filterable view of their link cards"""
-    # user_id = current_user.user_id
-    # tags = crud.conv_tags_for_react(user_id)(user_id)  # All User's Tags
-    # cards = crud.show_links_of_user(user_id) # All User's Cards
-    # query_word = request.args.get('tag').title() 
-    # fcards = crud.filter_by_tag(query_word) # Filtered Cards based on Tag
-    return jsonify({"fcards": "fcards go here", "cards": "cards go her", "tags": ["apple", "berry", "cherry"]})
+# @app.route('/craftboxF.json', methods=['POST'])
+# @login_required
+# def filter_view():
+#     """Shows user a filterable view of their link cards"""
+#     user_id = current_user.user_id
+    
+#     cards = crud.show_links_of_user(user_id) # All Cards
+#     query_word = request.form.get('tag').title() 
+#     fcards = crud.filter_by_tag(query_word) # Filtered Cards
+#     return jsonify({"fcards": fcards, "cards": cards})
 
 
 @app.route('/addtag')
@@ -225,17 +240,17 @@ def applytaglink():
     tags = crud.show_tags(user_id)
     return render_template("applytaglink.html", links=links, tags=tags)
 
-@app.route('/applytaglink', methods=['POST', 'GET'])
+@app.route('/applytaglink', methods=['POST'])
 @login_required
 def add_tag2link():
     """Allows a user to apply a tag"""
-    if request.method == 'POST':
-        link_req = request.form.get("link")
-        tags_sel = request.form.getlist("tag2apply")
+    
+    link_req = request.form.get("link")
+    tags_sel = request.form.getlist("tag2apply")
 
-        crud.apply_tag2link(link_req, tags_sel)
-        flash('Link Tagged!')
-        return redirect('/craftbox')
+    crud.apply_tag2link(link_req, tags_sel)
+    flash('Link Tagged!')
+    return redirect('/craftbox')
 
 
 

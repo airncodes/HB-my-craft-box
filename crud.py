@@ -128,14 +128,14 @@ def apply_tag2link(link_req, tags_sel):
     return linked_tag
 
 
-def search_by_tag(query_word):
+def search_by_tag(query_wd):
     """Seach by tag"""
-    query_tag = Tag.query.filter(Tag.tag.like(f'%{query_word}%')).first()
-    return query_tag
+    query_tag = Tag.query.filter(Tag.tag.like(f'%{query_wd}%')).first()
+    return [ link.conv_to_dict() for link in query_tag.links ]
 
-def filter_by_tag(query_word):
+def filter_by_tag(query_wd):
     """Filters by tag and converts link results to a dictionary for React"""
-    query_tag = Tag.query.filter(Tag.tag.like(f'%{query_word}%')).first()
+    query_tag = Tag.query.filter(Tag.tag.like(f'%{query_wd}%')).first()
     return [ link.conv_to_dict() for link in query_tag.links ]
 
 
@@ -143,6 +143,7 @@ def conv_tags_for_react(user_id):
     """Shows all tags for the user and converts them to a dictionary for React"""
     user = User.query.filter(User.user_id == user_id).first()
     return [ tag.conv_tag_to_dict() for tag in user.tags ]
+    
 
 
 # TagLink Functions

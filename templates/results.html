@@ -4,16 +4,14 @@
 
 {% block body %}
   <h1>Search Results</h1>
-  <section id="searches">
-    <h2>{{query_word}}</h2> 
-    <ul>
-    {% for link in query_tag.links %}
     
-    <li><a href="{{link.link_path}}">{{link.name}}</a></li>
+  <div id="filtercontainer"></div>
     
-    {% endfor %}
-    </ul>
-  </section>
 
 {% endblock body %}
 
+{% block js %}
+
+<script src="/static/js/filterCard.jsx" type="text/jsx"></script>
+
+{% endblock %}

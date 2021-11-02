@@ -1,6 +1,6 @@
 .grid {
   display: grid;
-  grid-template-columns: 3fr 3fr;
+  grid-template-columns: 3fr 3fr 3fr 3fr;
   grid-gap: 20px;
   align-items: normal;
 }
@@ -122,7 +122,7 @@ img {
   border-radius: 3px;
   border-width: 1px;
   border-style: solid;
-  border-color: rgb(150, 4, 4);
+  border-color: rgb(4, 150, 101);
   cursor: pointer;
   margin: 10px;
 }
@@ -152,20 +152,4 @@ img {
 body {
   margin: 10px;
   font-family: "Trebuchet MS", Helvetica, sans-serif;
-}
-
-.filter-btn {
-  font-weight: 600;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 2px 0px;
-  background-color: rgb(3, 179, 120);
-  color: rgb(247, 248, 250);
-  height: 35px;
-  width: 117px;
-  font-size: 14px;
-  border-radius: 3px;
-  border-width: 1px;
-  border-style: solid;
-  border-color: rgb(4, 150, 101);
-  cursor: pointer;
-  margin: 10px;
 }
