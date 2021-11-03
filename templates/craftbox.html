@@ -23,10 +23,10 @@
 
   <nav class="nav flex-column">
     <h2>Actions</h2>
-    <a class="nav-link active" href="addlink">Add a link</a>
-    <a class="nav-link" href="addtag">Add a tag</a>
-    <a class="nav-link" href="applytaglink">Tag a link</a>
-    <div id="buttoncontainer"></div>
+    <a class="nav-link active" href="addlink">Add a Link</a>
+    <a class="nav-link" href="addtag">Add a Tag</a>
+    <a class="nav-link" href="applytaglink">Tag a Link</a>
+    <a class="nav-link" href="editcard">Edit Card</a>
   </nav>
 
   <form class="form-inline" action="/search" method="POST">
@@ -50,44 +50,6 @@
           <h4 class="card-title">{{ link.name }} {{ link.link_id }}</h4>
           <p class="card-text">{{link.notes}}.</p>
           <a href="{{ link.link_path }}" class="btn btn-primary">Go to Link</a>
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="{{link.link_id}}">Edit</button>
-        </div>
-        <div class="modal" id="exampleModal">
-          <div class="modal-dialog">
-            <div class="modal-content">
-      
-              <!-- Modal Header -->
-              <div class="modal-header">
-                <h4 class="modal-title">Edit {{ link.name }} Card.</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-              </div>
-      
-              <!-- Modal body -->
-              <div class="modal-body">
-                <form class="form-inline" action="/craftbox/{{ link.link_id }}/edit" method="POST">
-                  <div class="form-group">
-                    <label for="Change card name">Name</label>
-                    <input type="text" name="name" class="form-control" id="{{ link.link_id }}" aria-describedby="namechange" placeholder="Rename card name?">
-                  </div>
-                  <div class="form-group">
-                    <label for="Change card image">Image</label>
-                    <input type="text" name="image" class="form-control" id="{{ link.link_id }}" placeholder="Change image?">
-                  </div>
-                  <div class="form-group">
-                    <label for="Edit or Add a note">Edit/Add Note</label>
-                    <input type="textarea" name="notes" class="form-control" id="{{ link.link_id }}" placeholder="Notes">
-                  </div>
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-              </div>
-      
-              <!-- Modal footer -->
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-              </div>
-      
-            </div>
-          </div>
         </div>
       </div>
     {% endfor %}

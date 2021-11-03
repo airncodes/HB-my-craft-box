@@ -17,6 +17,7 @@ function TagButton(props) {
         <button id={props.tag} type="button" className="btn toggle-btn" aria-pressed={props.isPressed} onClick={filterCard}>
             <span>{props.tag}</span>
             <input  type="text" name="tag" defaultValue={props.tag} hidden></input>
+            <span className="visually-hidden"></span>
         </button>
       );
 } 

@@ -63,7 +63,7 @@ def show_links_of_user(user_id):
     """Shows all the links that a user has added and converts the objects from a list of 
     objects to a list of of dictionaries"""
     user = User.query.filter(User.user_id == user_id).first()
-    return [ link.conv_to_dict() for link in user.links ]
+    return user.links
 
 
 ## Edit link card functions.
@@ -128,21 +128,10 @@ def apply_tag2link(link_req, tags_sel):
     return linked_tag
 
 
-def search_by_tag(query_wd):
+def search_by_tag(query_word):
     """Seach by tag"""
-    query_tag = Tag.query.filter(Tag.tag.like(f'%{query_wd}%')).first()
-    return [ link.conv_to_dict() for link in query_tag.links ]
-
-def filter_by_tag(query_wd):
-    """Filters by tag and converts link results to a dictionary for React"""
-    query_tag = Tag.query.filter(Tag.tag.like(f'%{query_wd}%')).first()
-    return [ link.conv_to_dict() for link in query_tag.links ]
-
-
-def conv_tags_for_react(user_id):
-    """Shows all tags for the user and converts them to a dictionary for React"""
-    user = User.query.filter(User.user_id == user_id).first()
-    return [ tag.conv_tag_to_dict() for tag in user.tags ]
+    query_tag = Tag.query.filter(Tag.tag.like(f'%{query_word}%')).first()
+    return query_tag
     
 
 

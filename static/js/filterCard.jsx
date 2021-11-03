@@ -170,7 +170,7 @@ function FilterdCardContainer() {
 
   console.log("This is a list")
   React.useEffect(() => {
-    fetch('/craftboxr.json', { method: 'POST' })
+    fetch('/craftboxr.json')
       .then(response => response.json())
       .then(data => setCards(data.fcards));
   }, []);

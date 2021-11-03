@@ -86,31 +86,14 @@ def logout():
     logout_user()
     return redirect('/')
 
-@app.route('/results')
+@app.route('/search', methods=['POST'])
 @login_required
 def user_search():
-    """Shows user search results based on their query"""
+    """Shows user search results based on their query NO REACT"""
 
-    # query_word = request.get_json().get('query')
-    # fcards = crud.search_by_tag(query_word)
-    return render_template("results.html")
-
-@app.route('/craftboxr.json', methods=['POST', 'GET'])
-@login_required
-def show_results_cards():
-    """Shows links of the user""" 
-    print('**********')
-    print("I am about to print...")
-    print(request.form.to_dict(flat=False))
-    query_wd = request.get_json().get("tag")
-    print('**********')
-    print("Next printing query_word")
-    print(query_wd)
-    fcards = crud.search_by_tag(query_wd) # Filtered Cards
-    print('**********')
-    print(fcards)
-    return jsonify({"fcards": fcards})
-
+    query_word = request.form.get('query')
+    query_tag = crud.search_by_tag(query_word)
+    return render_template("results.html", query_word=query_word, query_tag=query_tag )
 
 @app.route('/addlink')
 @login_required
@@ -144,36 +127,28 @@ def add_link():
 @app.route('/craftbox')
 @login_required
 def show_craftbox():
-    """Shows main craftbox page"""
-    return render_template("craftboxR.html")
-
-@app.route('/craftboxb.json')
-@login_required
-def show_tags():
-    """Shows tags of the user"""
+    """Shows main craftbox page for React"""
     user_id = current_user.user_id
-    buttons = crud.conv_tags_for_react(user_id)
-    return jsonify({"buttons": buttons})
+    links = crud.show_links_of_user(user_id)
+    tags = crud.show_tags(user_id)
+    return render_template("craftbox.html", tags=tags, links=links)
 
-@app.route('/craftbox.json')
+@app.route('/editcard')
 @login_required
-def show_links_cards():
-    """Shows links of the user"""
+def show_edit_card():
+    """Shows the addtag form"""
     user_id = current_user.user_id
-    cards = crud.show_links_of_user(user_id)
+    links = crud.show_links_of_user(user_id)
+    tags = crud.show_tags(user_id)
+    return render_template("editcard.html", links=links, tags=tags)
 
-    # Cards is [<Link >, <Link >]
-    # Convert this:[<Link >, <Link >]
-    # To:[{"name": }, {}]
-    return jsonify({"cards": cards})
-
-@app.route("/edit-card", methods=["POST"])
+@app.route("/editcard", methods=["POST"])
 def edit_card():
     """Add a new card to the DB."""
-    name = request.get_json().get("name")
-    image = request.get_json().get("image")
-    notes = request.get_json().get("notes")
-    link_id = request.get_json().get("link_id")
+    name = request.form.get("name")
+    image = request.form.get("image")
+    notes = request.form.get("notes")
+    link_id = request.form.get("link_id")
     print(link_id)
     
     # Iterate through the responses, if responses are not empty call edit function(s) to update the link.
@@ -185,32 +160,20 @@ def edit_card():
     if notes:
         print(notes)
         crud.edit_link_notes(link_id, notes)
+    else:
+        flash('No changes made')
+        return redirect('/craftbox')
    
-    
     flash('Link Edited!')
-    return jsonify()
 
-@app.route("/del-card", methods=["POST"])
+@app.route("/deletecard", methods=["POST"])
 def delete_card():
     """Delete a card to the DB."""
-    link_id = request.get_json().get("link_id")
+    link_id = request.form.get("link_id")
     print(link_id)
     crud.del_link_card(link_id)
    
     flash('Link Removed!')
-    return jsonify()
-
-
-# @app.route('/craftboxF.json', methods=['POST'])
-# @login_required
-# def filter_view():
-#     """Shows user a filterable view of their link cards"""
-#     user_id = current_user.user_id
-    
-#     cards = crud.show_links_of_user(user_id) # All Cards
-#     query_word = request.form.get('tag').title() 
-#     fcards = crud.filter_by_tag(query_word) # Filtered Cards
-#     return jsonify({"fcards": fcards, "cards": cards})
 
 
 @app.route('/addtag')
