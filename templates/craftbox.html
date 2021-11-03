@@ -26,7 +26,7 @@
     <a class="nav-link active" href="addlink">Add a Link</a>
     <a class="nav-link" href="addtag">Add a Tag</a>
     <a class="nav-link" href="applytaglink">Tag a Link</a>
-    <a class="nav-link" href="editcard">Edit Card</a>
+    <a class="nav-link" href="deletetag">Delete a Tag</a>
   </nav>
 
   <form class="form-inline" action="/search" method="POST">
@@ -40,22 +40,19 @@
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
   </form>
 
-  <section id="viewlinks">
-    <h2>All Links</h2> 
-    <ul>
-    {% for link in links %}
-      <div class="card" style="width:400px">
-        <img class="rounded" src={{ link.image }} alt="Image not available">
-        <div class="card-body">
-          <h4 class="card-title">{{ link.name }} {{ link.link_id }}</h4>
-          <p class="card-text">{{link.notes}}.</p>
-          <a href="{{ link.link_path }}" class="btn btn-primary">Go to Link</a>
-        </div>
-      </div>
-    {% endfor %}
-    </ul>
+  <div class="col-9">
+    <div class="tab-content" id="nav-tabContent">
+      <div id="linkcontainer"></div>
+    </div>
+  </div>
   </section>
 
   
+
+{% endblock %}
+
+{% block js %}
+<script src="/static/js/linkCard.jsx" type="text/jsx"></script>
+
 
 {% endblock %}

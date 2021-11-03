@@ -3,10 +3,11 @@
 function LinkCard(props) {
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   return (
-    <div className="card">
-      <img src={props.image} alt="Image not available"/>
-      <p><a href={props.link_path}>{props.name}</a></p>
+    <div className="card-body">
+      <img class="rounded" src={props.image} alt="Image not available"/>
+      <h4 class="card-title">{props.name}</h4>
       <p className="notes"> Notes: {props.notes} </p>
+      <a href={props.link_path} class="btn btn-primary">Go to Link</a>
       <button onClick={() => setIsModalVisible(true)}>Edit</button>
       {isModalVisible && (
         <Modal onModalClose={() => {setIsModalVisible(false), window.location.reload()}}>

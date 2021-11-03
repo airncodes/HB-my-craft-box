@@ -56,12 +56,12 @@ def sign_up():
     return redirect('/signup')
 
 
-@app.route('/login')
-def show_login():
-    """Shows the signup page"""
-    return render_template("login.html")
+# @app.route('/login')
+# def show_login():
+#     """Shows the signup page"""
+#     return render_template("login.html")
 
-@app.route('/login', methods=['POST', 'GET'])
+@app.route('/', methods=['POST', 'GET'])
 def login():
     """Login page for the user"""
 
@@ -78,7 +78,7 @@ def login():
             return redirect('/craftbox')
 
     flash('Invalid email or password. Try again.')
-    return redirect('/login')
+    return redirect('/')
 
 @app.route('/logout')
 def logout():
@@ -94,6 +94,12 @@ def user_search():
     query_word = request.form.get('query')
     query_tag = crud.search_by_tag(query_word)
     return render_template("results.html", query_word=query_word, query_tag=query_tag )
+
+@app.route('/results')
+@login_required
+def return_to_home():
+    """Redirects back to homepage"""
+    return redirect('/craftbox')
 
 @app.route('/addlink')
 @login_required
@@ -133,47 +139,86 @@ def show_craftbox():
     tags = crud.show_tags(user_id)
     return render_template("craftbox.html", tags=tags, links=links)
 
-@app.route('/editcard')
-@login_required
-def show_edit_card():
-    """Shows the addtag form"""
-    user_id = current_user.user_id
-    links = crud.show_links_of_user(user_id)
-    tags = crud.show_tags(user_id)
-    return render_template("editcard.html", links=links, tags=tags)
 
-@app.route("/editcard", methods=["POST"])
+
+# @app.route('/editcard')
+# @login_required
+# def show_edit_card():
+#     """Shows the addtag form"""
+#     user_id = current_user.user_id
+#     links = crud.show_links_of_user(user_id)
+#     tags = crud.show_tags(user_id)
+#     return render_template("editcard.html", links=links, tags=tags)
+
+@app.route('/craftbox.json')
+@login_required
+def show_links_cards():
+    """Shows links of the user for React"""
+    user_id = current_user.user_id
+    cards = crud.show_react_links_of_user(user_id)
+
+    # Cards is [<Link >, <Link >]
+    # Convert this:[<Link >, <Link >]
+    # To:[{"name": }, {}]
+    return jsonify({"cards": cards})
+
+@app.route("/edit-card", methods=["POST"])
 def edit_card():
-    """Add a new card to the DB."""
-    name = request.form.get("name")
-    image = request.form.get("image")
-    notes = request.form.get("notes")
-    link_id = request.form.get("link_id")
+    """Add a new card to the DB for React."""
+    name = request.get_json().get("name")
+    image = request.get_json().get("image")
+    notes = request.get_json().get("notes")
+    link_id = request.get_json().get("link_id")
     print(link_id)
     
     # Iterate through the responses, if responses are not empty call edit function(s) to update the link.
     if name:
         print(name)
-        crud.edit_link_name(link_id, name)
+        crud.edit_link_name_react(link_id, name)
     if image:
-        crud.edit_link_image(link_id, image)
+        crud.edit_link_image_react(link_id, image)
     if notes:
         print(notes)
-        crud.edit_link_notes(link_id, notes)
+        crud.edit_link_notes_react(link_id, notes)
+   
+    flash('Link Edited!')
+    return redirect('/craftbox')
+
+@app.route("/del-card", methods=["POST"])
+def delete_card():
+    """Delete a card to the DB for React."""
+    link_id = request.get_json().get("link_id")
+    print(link_id)
+    crud.del_link_card_react(link_id)
+   
+    flash('Link Removed!')
+    return redirect('/craftbox')
+
+@app.route('/deletetag')
+@login_required
+def show_deletetag():
+    """Shows the delete card and tag form"""
+    user_id = current_user.user_id
+    tags = crud.show_tags(user_id)
+    return render_template("deletetag.html", tags=tags)
+
+@app.route("/deletetag", methods=["POST"])
+def remove_tag():
+    """Delete a tag from the DB."""
+    tag_sel = request.form.get("tag")
+    print('^V^V^V^V^V^V^V^')
+    print(tag_sel)
+    
+    if tag_sel:
+        print(f'Deleting... {tag_sel}')
+        crud.del_tag(tag_sel)
+        flash('Removed!')
+        return redirect('/craftbox')
     else:
         flash('No changes made')
         return redirect('/craftbox')
-   
-    flash('Link Edited!')
 
-@app.route("/deletecard", methods=["POST"])
-def delete_card():
-    """Delete a card to the DB."""
-    link_id = request.form.get("link_id")
-    print(link_id)
-    crud.del_link_card(link_id)
-   
-    flash('Link Removed!')
+    
 
 
 @app.route('/addtag')

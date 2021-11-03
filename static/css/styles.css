@@ -148,8 +148,49 @@ img {
   border-color: rgb(43, 123, 255);
   cursor: pointer;
 }
-
-body {
+h1.header {
   margin: 10px;
-  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  font-family: 'Oleo Script', cursive; 
+  font-weight: 700;
+  color: lightcyan;
+}
+h3.header{
+  margin: 10px;
+  font-family: 'Oleo Script', cursive; 
+  color: lightcyan;
+}
+h4.header{
+  margin: 10px;
+  font-family: 'Oleo Script', cursive; 
+  color: lightcyan;
+}
+
+ul.homepage {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  color: lightcyan;
+  list-style: none
+}
+
+body.homepage {
+  margin: 0 auto;
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  padding-bottom: 40px;
+}
+
+.bg-homepage {
+  /* The image used */
+  background-image: url('/static/img/wood_1/wood_1.png');
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }

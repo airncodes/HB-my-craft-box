@@ -3,11 +3,38 @@
 {% block title %}My Craft Box{% endblock %}
 
 {% block body %}
-  <h1>Welcome to My Craft Box!</h1>
-
-  <h2>Navigation</h2>
-  <ul>
-    <li><a href="/login">Login to your account</a></li>
-    <li><a href="/signup">Sign up for an account</a></li>
-  </ul>
+  <body class="bg-homepage homepage text-center container-fluid">
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+      <header class="masthead mb-auto">
+        <div class="inner">
+          <h1 class="header masthead-brand">Welcome to My Craft Box!</h1>
+        </div>
+      </header>
+      <main role='main' class='inner cover'>
+        <form class="form-signin" action="/" method="POST">
+        
+          <h3 class="header cover-heading">Please log in</h3>
+          <input type="text" name="email" class="form-control" placeholder="Email Address" required autofocus>
+          <input type="password" name="password" class="form-control" placeholder="Password" required>
+          <br>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+          <br>
+          
+          <h4 class="header">Or</h4>
+          
+          <button class="btn btn-lg btn-secondary btn-block" href="/signup">Sign up for an account</button>
+        </form>
+      </main>
+      <footer class="mastfoot mt-auto">
+        <div>
+          <h4 class="header">My Craft Box is ...</h4>
+          <ul class="homepage">
+            <li class="homepage">A place where you can store all your favorite links</li>
+            <li class="homepage">A place where you can organize them</li>
+            <li class="homepage">A place where you can add a note</li>
+          <ul>
+        </div>
+      </footer>
+    </div>
+  </body>
 {% endblock %}

@@ -4,6 +4,7 @@
 
 {% block body %}
   <h1>Search Results</h1>
+  <a href="/craftbox" class="btn btn-primary">Return to My Craft Box</a>
   <section id="searches">
     <h2>{{query_word}}</h2> 
     <ul>
@@ -13,13 +14,13 @@
       <img class="rounded" src={{link.image}} alt="Image not available">
       <div class="card-body">
         <h4 class="card-title">{{link.name}}</h4>
-        <p class="card-text">{{link.notes}}.</p>
+        <p class="notes">{{link.notes}}.</p>
         <a href="{{link.link_path}}" class="btn btn-primary">Go to Link</a>
       </div>
     </div>
     {% endfor %}
     </ul>
   </section>
-
+  <a href="/craftbox" class="btn btn-primary">Return to My Craft Box</a>
 {% endblock body %}
 

@@ -67,33 +67,33 @@ def show_links_of_user(user_id):
 
 
 ## Edit link card functions.
-def edit_link_name(link_id, name):
-    """Edits the name of a link record"""
-    to_edit = Link.query.get(link_id)
-    to_edit.name = name
-    db.session.commit()
+# def edit_link_name(link_req, name):
+#     """Edits the name of a link record"""
+#     to_edit = Link.query.filter(Link.name==link_req).first()
+#     to_edit.name = name
+#     db.session.commit()
 
 
-def edit_link_image(link_id, image):
-    """Edits the image path of a link record"""
-    to_edit = Link.query.get(link_id)
-    to_edit.image = image
-    db.session.commit()
+# def edit_link_image(link_req, image):
+#     """Edits the image path of a link record"""
+#     to_edit = Link.query.filter(Link.name==link_req).first()
+#     to_edit.image = image
+#     db.session.commit()
 
 
-def edit_link_notes(link_id, notes):
-    """Function to add or edit a note after a link has already been added"""
-    to_edit = Link.query.get(link_id)
-    to_edit.notes = notes
-    db.session.commit()
+# def edit_link_notes(link_req, notes):
+#     """Function to add or edit a note after a link has already been added"""
+    
+#     to_edit = Link.query.filter(Link.name==link_req).first()
+#     to_edit.notes = notes
+#     db.session.commit()
 
 
-def del_link_card(link_id):
-    """Function to delete a card."""
-    to_delete = Link.query.get(link_id)
-    db.session.delete(to_delete)
-    db.session.commit()
-
+# def del_link_card(link_req):
+#     """Function to delete a card."""
+#     to_delete = Link.query.filter(Link.name==link_req).first()
+#     db.session.delete(to_delete)
+#     db.session.commit()
 
 # Tag Functions
 
@@ -133,7 +133,12 @@ def search_by_tag(query_word):
     query_tag = Tag.query.filter(Tag.tag.like(f'%{query_word}%')).first()
     return query_tag
     
-
+    
+def del_tag(tag_sel):
+    """Function to delete a tag."""
+    to_delete = Tag.query.filter(Tag.tag==tag_sel).first()
+    db.session.delete(to_delete)
+    db.session.commit()
 
 # TagLink Functions
 def create_taglink(link_id, tag_id):
@@ -147,6 +152,54 @@ def create_taglink(link_id, tag_id):
     db.session.commit()
 
     return taglink
+
+## Card functions for React.
+def show_react_links_of_user(user_id):
+    """Shows all the links that a user has added and converts the objects from a list of 
+    objects to a list of of dictionaries for React"""
+    user = User.query.filter(User.user_id == user_id).first()
+    return [ link.conv_to_dict() for link in user.links ]
+
+
+
+def edit_link_name_react(link_id, name):
+    """Edits the name of a link record for React"""
+    to_edit = Link.query.get(link_id)
+    to_edit.name = name
+    db.session.commit()
+
+
+def edit_link_image_react(link_id, image):
+    """Edits the image path of a link record for React"""
+    to_edit = Link.query.get(link_id)
+    to_edit.image = image
+    db.session.commit()
+
+
+def edit_link_notes_react(link_id, notes):
+    """Function to add or edit a note after a link has already been added for React"""
+    to_edit = Link.query.get(link_id)
+    to_edit.notes = notes
+    db.session.commit()
+
+
+def del_link_card_react(link_id):
+    """Function to delete a card for React."""
+    to_delete = Link.query.get(link_id)
+    db.session.delete(to_delete)
+    db.session.commit()
+
+def del_tag_react(link_id):
+    """Function to delete a card for React."""
+    to_delete = Tag.query.get(link_id)
+    db.session.delete(to_delete)
+    db.session.commit()
+
+def conv_tags_for_react(user_id):
+    """Shows all tags for the user and converts them to a dictionary for React"""
+    user = User.query.filter(User.user_id == user_id).first()
+    return [ tag.conv_tag_to_dict() for tag in user.tags ]
+    
 
 
 if __name__ == '__main__':
