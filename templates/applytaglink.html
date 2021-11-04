@@ -3,22 +3,48 @@
 {% block title %}Apply a Tag{% endblock %}
 
 {% block body %}
-  <h1>Apply a tag to a link</h1>
-  <form method = 'POST'>
-        Select Link to Tag
-    <select name="link">
-        {% for link in links %}
-        <option value="{{link.name}}">{{link.name}}</option>
-        {% endfor %}
-    </select>
-      
-    Apply tag(s)
-    {% for tag in tags %}
-    <input type="checkbox" name="tag2apply" value="{{tag.tag}}">
-    <label>{{tag.tag}}</label>
-    {% endfor %}
-
-    <input type="submit">
-  </form>
+<body class="bg-results">
+  <nav class="navbar navbar-light bg-light">
+    <a class="logo navbar-brand col-sm-3 col-md-2 mr-0" href="/craftbox">MyCraftBox</a>
+    <h1>Apply a Tag to a Link</h1>
+    <ul class="navbar-nav px-3">
+      <li class="nav-item text-nowrap">
+        <a href="/craftbox" class="nav-link">Return to My Craft Box</a>
+        <a class="nav-link" href="/logout">Logout</a>
+      </li>
+    </ul>
+  </nav>
+  <div class="text-center container-fluid">
+    <div class="cover-container h-100 p-3 mx-auto flex-column">
+      <div class="card h-25 d-inline-block rounded" style="width: 18rem">
+        <main role='main' class='inner cover'>
+          <form class="form-signin"  action="/addlink" method="POST">
+            <label>Select Link to Tag</label>
+            <select class="form-control" required name="link">>
+                <option value=''>Select a Link</option>
+                {% for link in links %}
+                <option value="{{link.name}}">{{link.name}}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label>Apply Tag(s)</label>
+            {% for tag in tags %}
+            <div class="col-sm-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="tag2apply" value="{{tag.tag}}">
+                <label class="form-check-label" for="{{tag.tag}}">
+                  {{tag.tag}}
+                </label>
+              </div>
+            </div>
+            {% endfor %}
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Tag a Link
+            </button>
+          </form>
+        </main>
+      </div>
+    </div>
+  </div>
+</body>
 
 {% endblock body %}

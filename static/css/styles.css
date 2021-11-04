@@ -1,28 +1,42 @@
 .grid {
   display: grid;
   grid-template-columns: 3fr 3fr;
-  grid-gap: 20px;
+  grid-gap: 15px;
   align-items: normal;
 }
 
 div.card {
-  border-radius: 3px;
-  border: 3px solid black;
-  width: 20em;
-  height: 20em;
-  margin: 2em;
+  border-radius: .25rem!important;
+  border: 3px solid round grey;
+  background-color: lightcyan;
+  width: 18rem;
+  height: max-content;
+  margin: 1em;
   padding: 1em;
   box-sizing: content-box;
-  display: inline-block;
+  display: inline-block!important;
 }
 
-p.notes {
-  width: 320px;
-  height: 75px;
-  border: 1px solid;
+p.react-notes {
+  width: 95%;
+  height: 5rem;
+  border: 1px solid grey;
+  background-color: white;
   padding: 2px 5px;
   white-space: wrap;
   overflow: scroll;
+  align-self: center;
+}
+
+p.notes {
+  width: 95%;
+  height: 50%;
+  border: 1px solid grey;
+  background-color: white;
+  padding: 2px 5px;
+  white-space: wrap;
+  overflow: scroll;
+  align-self: center;
 }
 
 img {
@@ -185,6 +199,43 @@ body.homepage {
 .bg-homepage {
   /* The image used */
   background-image: url('/static/img/wood_1/wood_1.png');
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-craftbox {
+  /* The image used */
+  background-image: url('/static/img/wood_lighter.png');
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+a.logo {
+  margin: 10px;
+  font-family: 'Oleo Script', cursive; 
+  font-weight: 700;
+  font-size: 24px;
+  color: slategrey;
+}
+.form-control-dark-w-100 {
+  display:inline-block !important;
+}
+
+.bg-results {
+  /* The image used */
+  background-image: url('/static/img/wood_lighter.png');
 
   /* Full height */
   height: 100%;

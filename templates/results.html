@@ -3,24 +3,43 @@
 {% block title %}Search Results{% endblock %}
 
 {% block body %}
-  <h1>Search Results</h1>
-  <a href="/craftbox" class="btn btn-primary">Return to My Craft Box</a>
-  <section id="searches">
-    <h2>{{query_word}}</h2> 
-    <ul>
-    {% for link in query_tag.links %}
-    
-    <div class="card" style="width:400px">
-      <img class="rounded" src={{link.image}} alt="Image not available">
-      <div class="card-body">
-        <h4 class="card-title">{{link.name}}</h4>
-        <p class="notes">{{link.notes}}.</p>
-        <a href="{{link.link_path}}" class="btn btn-primary">Go to Link</a>
+  <body class="bg-results">
+    <nav class="navbar  navbar-light bg-light">
+      <a class="logo navbar-brand col-sm-3 col-md-2 mr-0" href="/craftbox">MyCraftBox</a>
+      <h1>Search Results</h1>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a href="/craftbox" class="nav-link">Return to My Craft Box</a>
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h2 class="h2">{{query_word}}</h2> 
+          </div>
+          <div>
+            {% for link in query_tag.links %}
+              <div class="card h-25 d-inline-block rounded" style="width: 18rem">
+                <img class="card-img-top" src={{link.image}} alt="Image not available" style="height: 180px; width: 100%; display: block;">
+                <div class="card-body">
+                  <h4 class="card-title">{{link.name}}</h4>  
+                </div>
+                <div class="card-body">
+                  <p class="notes">{{link.notes}}.</p>
+                </div>
+                <div class="card-body">
+                  <a href="{{link.link_path}}" class="btn btn-link">Go to Link</a>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </main>
       </div>
     </div>
-    {% endfor %}
-    </ul>
-  </section>
-  <a href="/craftbox" class="btn btn-primary">Return to My Craft Box</a>
+  </body>
+  
 {% endblock body %}
 

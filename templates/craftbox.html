@@ -3,49 +3,53 @@
 {% block title %}My Craft Box{% endblock %}
 
 {% block body %}
-  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
-    <a class="navbar-brand" href="/">MyCraftBox</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav m-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item active">
+  <body class="bg-craftbox">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="logo navbar-brand col-sm-3 col-md-2 mr-0" href="/craftbox">MyCraftBox</a>
+      <form class="form-control form-control-dark-w-100" action="/search" method="POST">
+        <span><select class="form-select" name="query">
+          <option value=''>Search by Tag</option>
+          {% for tag in tags %}
+          <option value="{{tag.tag}}">{{tag.tag}}</option>
+          {% endfor %}
+        </select><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button></span>
+      </form>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
           <a class="nav-link" href="/logout">Logout</a>
         </li>
       </ul>
+    </nav>  
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <h3>Actions</h3>
+              <li class="nav-item">
+                <a class="nav-link" href="addlink">Add a Link</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="addtag">Add a Tag</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="applytaglink">Tag a Link</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="deletetag">Delete a Tag</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
+            <div id="linkcontainer"></div>
+          </div>
+        </main>
+      </div>
     </div>
-  </nav>  
-
-  <nav class="nav flex-column">
-    <h2>Actions</h2>
-    <a class="nav-link active" href="addlink">Add a Link</a>
-    <a class="nav-link" href="addtag">Add a Tag</a>
-    <a class="nav-link" href="applytaglink">Tag a Link</a>
-    <a class="nav-link" href="deletetag">Delete a Tag</a>
-  </nav>
-
-  <form class="form-inline" action="/search" method="POST">
-    <label for="sel1">Search by Tag:</label>
-    <select class="form-select" name="query">
-      <option value=''>Open Tag Menu</option>
-      {% for tag in tags %}
-      <option value="{{tag.tag}}">{{tag.tag}}</option>
-      {% endfor %}
-    </select>
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-  </form>
-
-  <div class="col-9">
-    <div class="tab-content" id="nav-tabContent">
-      <div id="linkcontainer"></div>
-    </div>
-  </div>
-  </section>
+  </body>
+  
 
   
 

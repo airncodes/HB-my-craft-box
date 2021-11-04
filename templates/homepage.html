@@ -3,28 +3,32 @@
 {% block title %}My Craft Box{% endblock %}
 
 {% block body %}
-  <body class="bg-homepage homepage text-center container-fluid">
-    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+  <body class="bg-homepage text-center container-fluid">
+    <div class="cover-container h-100 p-3 mx-auto flex-column">
       <header class="masthead mb-auto">
         <div class="inner">
           <h1 class="header masthead-brand">Welcome to My Craft Box!</h1>
         </div>
       </header>
-      <main role='main' class='inner cover'>
-        <form class="form-signin" action="/" method="POST">
-        
-          <h3 class="header cover-heading">Please log in</h3>
-          <input type="text" name="email" class="form-control" placeholder="Email Address" required autofocus>
-          <input type="password" name="password" class="form-control" placeholder="Password" required>
-          <br>
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-          <br>
+      <div class="text-center h-25 d-inline-block" style="width: 18rem">
+        <main role='main' class='inner cover'>
+          <form class="form-signin" action="/" method="POST">
           
-          <h4 class="header">Or</h4>
-          
-          <button class="btn btn-lg btn-secondary btn-block" href="/signup">Sign up for an account</button>
-        </form>
-      </main>
+            <h3 class="header cover-heading">Please log in</h3>
+            <input type="text" name="email" class="form-control" placeholder="Email Address" required autofocus>
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
+            <br>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <br>
+          </form>
+          <div>
+            <h4 class="header">Or</h4>
+            
+            <a class="btn btn-lg btn-secondary btn-block" href="/signup" role="button">Sign up for an account</a>
+            
+          </div>
+        </main>
+      </div>
       <footer class="mastfoot mt-auto">
         <div>
           <h4 class="header">My Craft Box is ...</h4>

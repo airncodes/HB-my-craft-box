@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}Add Tag{% endblock %}
+{% block title %}Delete Card{% endblock %}
 
 {% block body %}
 <body class="bg-results">
   <nav class="navbar navbar-light bg-light">
-    <a class="logo navbar-brand col-sm-3 col-md-2 mr-0" href="/">MyCraftBox</a>
-    <h1>Add Tag</h1>
+    <a class="logo navbar-brand col-sm-3 col-md-2 mr-0" href="/craftbox">MyCraftBox</a>
+    <h1>Delete Tag</h1>
     <ul class="navbar-nav px-3">
       <li class="nav-item text-nowrap">
         <a href="/craftbox" class="nav-link">Return to My Craft Box</a>
@@ -18,13 +18,15 @@
     <div class="cover-container h-100 p-3 mx-auto flex-column">
       <div class="card h-25 d-inline-block rounded" style="width: 18rem">
         <main role='main' class='inner cover'>
-          <form class="form-signin"  action="/addtag" method="POST">
-            <label for="addtagname">Create a tag</label>
-            <p>
-            <input type="text" name="tag" class="form-control" required>
-            </p>
+          <form class="form-signin"  action="/deletetag" method="POST">
+            <select class="form-control" required name="tag">
+                <option value=''>Select Tag to Delete</option>
+                {% for tag in tags %}
+                <option value="{{tag.tag}}">{{tag.tag}}</option>
+                {% endfor %}
+            </select>
             <br>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Add Tag
+            <button class="btn btn-danger" type="submit">Delete Tag
             </button>
           </form>
         </main>
@@ -32,5 +34,5 @@
     </div>
   </div>
 </body>
-  
+
 {% endblock %}

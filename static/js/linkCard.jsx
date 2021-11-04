@@ -3,22 +3,28 @@
 function LinkCard(props) {
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   return (
-    <div className="card-body">
-      <img class="rounded" src={props.image} alt="Image not available"/>
-      <h4 class="card-title">{props.name}</h4>
-      <p className="notes"> Notes: {props.notes} </p>
-      <a href={props.link_path} class="btn btn-primary">Go to Link</a>
-      <button onClick={() => setIsModalVisible(true)}>Edit</button>
-      {isModalVisible && (
-        <Modal onModalClose={() => {setIsModalVisible(false), window.location.reload()}}>
-          <Modal.Header>Edit {props.name} Card -{props.link_id}
-          </Modal.Header>
-          <Modal.Form link_id={props.link_id}>Options</Modal.Form>
-          <Modal.Footer>
-            <Modal.Footer.CloseBtn>Close</Modal.Footer.CloseBtn>
-          </Modal.Footer>
-        </Modal>
-      )}
+    <div className="card" style={{width: "18rem"}}>
+      <img className="card-img-top" src={props.image} alt="Image not available" style={{height: "180px", width: "100%", display: "block"}}/>
+      <div className="card-body">
+        <h4 className="card-title">{props.name}</h4>
+      </div>
+      <div className="card-body">
+        <p className="react-notes"> {props.notes} </p>
+      </div>
+      <div className="card-body">
+        <a href={props.link_path} className="btn btn-link">Go to Link</a>
+        <button className="btn btn-link" onClick={() => setIsModalVisible(true)}>Edit</button>
+        {isModalVisible && (
+          <Modal onModalClose={() => {setIsModalVisible(false), window.location.reload()}}>
+            <Modal.Header>Edit {props.name} Card
+            </Modal.Header>
+            <Modal.Form link_id={props.link_id}>Options</Modal.Form>
+            <Modal.Footer>
+              <Modal.Footer.CloseBtn>Close</Modal.Footer.CloseBtn>
+            </Modal.Footer>
+          </Modal>
+        )}
+      </div>
     </div>
     );
 }
@@ -193,8 +199,8 @@ function LinkCardContainer() {
   }
   return (
     <React.Fragment>
-      <h2>All Links</h2>
-      <div className="grid">{linkCards}</div>
+      <h2 className="border-bottom">All Links</h2>
+      <div className="col">{linkCards}</div>
     </React.Fragment>
   );
 }
