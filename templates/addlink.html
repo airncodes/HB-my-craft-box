@@ -29,16 +29,16 @@
             </p>
             <label for="addimage">Optional—Add an image thumbnail. Copy the image address link and paste here.</label>
             <p>
-            <input type="text" name="image" class="form-control" required>
+            <input type="text" name="image" class="form-control">
             </p>
             <label for="addNotes">Optional—Add a note about this link.</label>
             <p>
-            <input type="text" name="notes" class="form-control" required>
+            <input type="text" name="notes" class="form-control">
             </p>
             <p>
               Optional-Tag a link with an available tag. (Can be tagged later.)
             </p>
-            <select class="form-control" required name="tag2apply">
+            <select class="form-control" name="tag2apply">
                 <option value=''>Apply a Tag</option>
                 {% for tag in tags %}
                 <option value="{{tag.tag}}">{{tag.tag}}</option>
