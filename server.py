@@ -56,11 +56,6 @@ def sign_up():
     return redirect('/signup')
 
 
-# @app.route('/login')
-# def show_login():
-#     """Shows the signup page"""
-#     return render_template("login.html")
-
 @app.route('/', methods=['POST', 'GET'])
 def login():
     """Login page for the user"""
@@ -140,16 +135,6 @@ def show_craftbox():
     return render_template("craftbox.html", tags=tags, links=links)
 
 
-
-# @app.route('/editcard')
-# @login_required
-# def show_edit_card():
-#     """Shows the addtag form"""
-#     user_id = current_user.user_id
-#     links = crud.show_links_of_user(user_id)
-#     tags = crud.show_tags(user_id)
-#     return render_template("editcard.html", links=links, tags=tags)
-
 @app.route('/craftbox.json')
 @login_required
 def show_links_cards():
@@ -190,7 +175,7 @@ def delete_card():
     link_id = request.get_json().get("link_id")
     print(link_id)
     crud.del_link_card_react(link_id)
-   
+
     flash('Link Removed!')
     return redirect('/craftbox')
 
@@ -217,9 +202,6 @@ def remove_tag():
     else:
         flash('No changes made')
         return redirect('/craftbox')
-
-    
-
 
 @app.route('/addtag')
 @login_required
